@@ -6,13 +6,14 @@
 #include "empty_class.hpp"
 
 using namespace testing;
+using namespace ProjectLibrary;
 
 TEST(TestVertex, TestConstructor)
 {
   unsigned int id = 5;
   double x = 23.8;
   double y = 3.14159;
-  ProjectLibrary::Vertex v = ProjectLibrary::Vertex(id, x, y);
+  Vertex v = Vertex(id, x, y);
   EXPECT_EQ(v._id, 5);
   EXPECT_EQ(v._x, 23.8);
   EXPECT_EQ(v._y, 3.14159);
@@ -30,12 +31,12 @@ TEST(TestEdge, TestComputeLength)
 
   double y1 = 7, y2 = 7;
 
-  ProjectLibrary::Vertex vertice1 = ProjectLibrary::Vertex(id1, x1, y1);
-  ProjectLibrary::Vertex vertice2 = ProjectLibrary::Vertex(id2, x2, y2);
+  Vertex vertice1 = Vertex(id1, x1, y1);
+  Vertex vertice2 = Vertex(id2, x2, y2);
 
-  vector<ProjectLibrary::Vertex> vs = {vertice1, vertice2};
+  vector<Vertex> vs = {vertice1, vertice2};
 
-  ProjectLibrary::Edge e = ProjectLibrary::Edge(id, vs);
+  Edge e = Edge(id, vs);
 
   EXPECT_EQ(e._length, 19);
 }
@@ -48,26 +49,34 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
 
   double y1 = 7, y2 = 7, y3 = 17;
 
-  ProjectLibrary::Vertex vertice1 = ProjectLibrary::Vertex(id1, x1, y1);
-  ProjectLibrary::Vertex vertice2 = ProjectLibrary::Vertex(id2, x2, y2);
-  ProjectLibrary::Vertex vertice3 = ProjectLibrary::Vertex(id3, x3, y3);
+  Vertex vertice1 = Vertex(id1, x1, y1);
+  Vertex vertice2 = Vertex(id2, x2, y2);
+  Vertex vertice3 = Vertex(id3, x3, y3);
 
-  vector<ProjectLibrary::Vertex> vs1 = {vertice1, vertice2};
-  vector<ProjectLibrary::Vertex> vs2 = {vertice1, vertice3};
-  vector<ProjectLibrary::Vertex> vs3 = {vertice2, vertice3};
+  vector<Vertex> vs1 = {vertice1, vertice2};
+  vector<Vertex> vs2 = {vertice1, vertice3};
+  vector<Vertex> vs3 = {vertice2, vertice3};
 
-  vector<ProjectLibrary::Vertex> vs = {vertice1, vertice2, vertice3};
+  vector<Vertex> vs = {vertice1, vertice2, vertice3};
 
-  ProjectLibrary::Edge ed1 = ProjectLibrary::Edge(eid1, vs1);
-  ProjectLibrary::Edge ed2 = ProjectLibrary::Edge(eid2, vs2);
-  ProjectLibrary::Edge ed3 = ProjectLibrary::Edge(eid3, vs3);
+  Edge ed1 = Edge(eid1, vs1);
+  Edge ed2 = Edge(eid2, vs2);
+  Edge ed3 = Edge(eid3, vs3);
 
-  vector<ProjectLibrary::Edge> edges = {ed1, ed2, ed3};
+  vector<Edge> edges = {ed1, ed2, ed3};
 
-  ProjectLibrary::Triangle triangle = ProjectLibrary::Triangle(id, vs, edges);
+  Triangle triangle = Triangle(id, vs, edges);
 
   EXPECT_EQ(triangle._area, 95);
   EXPECT_EQ(triangle._longestEdge, ed3);
+}
+
+TEST(TestSorting, TestMergeSort)
+{
+    vector<int> v = {44, 26, 12, 2, 16, 7, 9, 23, 5, 98, 32, 48};
+    MergeSort<int>(v, 0, v.size()-1);
+    vector<int> sortedV = {98, 48, 44, 32, 26, 23, 16, 12, 9, 7, 5, 2};
+    EXPECT_EQ(v, sortedV);
 }
 
 #endif // __TEST_EMPTY_H

@@ -6,8 +6,28 @@ bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary:
 
 bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList);
 
-int main()
+void Refine(vector<ProjectLibrary::Triangle>& trianglesList, const double& percentage);
+
+int main(int argc, char** argv)
 {
+  // Preliminarmente controlliamo che sia stata passata la percentuale al programma
+  if(argc < 2)
+  {
+    cerr<<"A percentage has to be passed to the program"<<endl;
+    return -1;
+  }
+
+  double percentage;
+  istringstream converter;
+  converter.str(argv[1]);
+  converter >> percentage;
+
+  if(percentage > 100 || percentage < 0)
+  {
+    cerr<<"The percentage has to be a number between 0 and 100"<<endl;
+    return -1;
+  }
+
   // Iniziamo importando i vertici
   vector<ProjectLibrary::Vertex> verticesList = {};
 
@@ -31,6 +51,13 @@ int main()
   {
     return 1;
   }
+
+  // Ordinamento per area decrescente
+  unsigned int numTriangles = trianglesList.size();
+
+  ProjectLibrary::MergeSort(trianglesList, 0, numTriangles-1);
+
+  Refine(trianglesList, percentage);
 
 
 
@@ -227,4 +254,20 @@ bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<Pro
     }
     file.close();
     return true;
+
+}
+
+void Refine(vector<ProjectLibrary::Triangle>& trianglesList, const double& percentage)
+{
+  // Calcoliamo il numero di triangoli da raffinare
+  unsigned int numToBeRefined = trianglesList.size() / 100 * percentage;
+
+  // Salviamo in un vettore separato gli id dei triangoli da raffinare, ordinati per area in modo decrescente
+  vector<unsigned int> toBeRefined;
+  toBeRefined.reserve(numToBeRefined);
+
+  for(unsigned int i = 0; i < numToBeRefined; i++)
+    toBeRefined.push_back(trianglesList[i]._id);
+
+
 }
