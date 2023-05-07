@@ -11,6 +11,15 @@ using namespace std;
 
 namespace ProjectLibrary
 {
+  constexpr double max_tolerance(const double& x, const double& y)
+  {
+    return x > y ? x : y;
+  }
+
+  static constexpr double geometricTol = 1.0e-12;
+  static constexpr double geometricTol_Squared = max_tolerance(geometricTol * geometricTol,
+                                                             numeric_limits<double>::epsilon());
+
   class Empty
   {
     public:
@@ -42,6 +51,16 @@ namespace ProjectLibrary
       double ComputeLength();
   };
 
+  inline bool operator==(const Edge& e1, const Edge& e2)
+  {
+    return e1._id == e2._id;
+  }
+
+  inline bool operator!=(const Edge& e1, const Edge& e2)
+  {
+    return !(e1 == e2);
+  }
+
   class Triangle
   {
     public:
@@ -50,7 +69,7 @@ namespace ProjectLibrary
       vector<Edge> _edges;
       double _area;
       vector<Triangle> _adjacents;
-      Edge _longestEdge;
+      Edge _longestEdge; 
 
       Triangle() = default;
       Triangle(unsigned int& id,
@@ -58,8 +77,17 @@ namespace ProjectLibrary
                vector<Edge>& edges);
       double Area();
       Edge LongestEdge();
-
   };
+
+  inline bool operator<=(const Triangle& t1, const Triangle& t2)
+  {
+    return t1._area <= t2._area + geometricTol_Squared * max(t1._area, t2._area);
+  }
+
+  inline bool operator>(const Triangle& t1, const Triangle& t2)
+  {
+    return !(t1 <= t2);
+  }
 
 }
 
