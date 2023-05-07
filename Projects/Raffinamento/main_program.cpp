@@ -262,7 +262,7 @@ void Refine(vector<ProjectLibrary::Triangle>& trianglesList, const double& perce
   // Calcoliamo il numero di triangoli da raffinare
   unsigned int numToBeRefined = trianglesList.size() / 100 * percentage;
 
-  // Salviamo in un vettore separato i triangoli da raffinare, ordinati per area in modo decrescente
+  // Salviamo in un vettore separato gli id dei triangoli da raffinare, ordinati per area in modo decrescente
   vector<unsigned int> toBeRefined;
   toBeRefined.reserve(numToBeRefined);
 
