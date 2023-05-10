@@ -72,7 +72,7 @@ bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList)
 {
     // Apriamo il file contenente i vertici e creiamo una lista di linee con tutte le info
     ifstream file;
-    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cells0D.csv");
+    file.open("./Dataset/Cell0Ds.csv");
 
     if(file.fail())
       return false;
