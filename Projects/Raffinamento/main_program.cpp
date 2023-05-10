@@ -72,7 +72,7 @@ bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList)
 {
     // Apriamo il file contenente i vertici e creiamo una lista di linee con tutte le info
     ifstream file;
-    file.open("/Dataset/Cell0Ds.csv");
+    file.open("./Dataset/Cell0Ds.csv");
 
     if(file.fail())
       return false;
@@ -127,7 +127,7 @@ bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList)
 bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList)
 {
     ifstream file;
-    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cell1Ds.csv");
+    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cells1D.csv");
 
     if(file.fail())
       return false;
@@ -194,7 +194,7 @@ bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary:
 bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList)
 {
     ifstream file;
-    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cell2Ds.csv");
+    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cells2D.csv");
 
     if(file.fail())
       return false;
