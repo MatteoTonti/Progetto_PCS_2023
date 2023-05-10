@@ -1,20 +1,20 @@
 #include "geometry_class.hpp"
 #include "sorting.hpp"
 
-bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList);
+bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList, char** argv);
 
-bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList);
+bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList, char** argv);
 
-bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList);
+bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList, char** argv);
 
 void Refine(vector<ProjectLibrary::Triangle>& trianglesList, const double& percentage);
 
 int main(int argc, char** argv)
 {
   // Preliminarmente controlliamo che sia stata passata la percentuale al programma
-  if(argc < 2)
+  if(argc < 5)
   {
-    cerr<<"A percentage has to be passed to the program"<<endl;
+    cerr<<"At least 4 arguments have to be passed"<<endl;
     return -1;
   }
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
   // Iniziamo importando i vertici
   vector<ProjectLibrary::Vertex> verticesList = {};
 
-  if(!ImportVertices(verticesList))
+  if(!ImportVertices(verticesList, argv))
   {
     return 1;
   }
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
   // Importiamo poi i lati
   vector<ProjectLibrary::Edge> edgesList = {};
 
-  if(!ImportEdges(edgesList, verticesList))
+  if(!ImportEdges(edgesList, verticesList, argv))
   {
     return 1;
   }
@@ -48,7 +48,7 @@ int main(int argc, char** argv)
   // Importiamo poi i triangoli
   vector<ProjectLibrary::Triangle> trianglesList = {};
 
-  if(!ImportTriangles(trianglesList, edgesList, verticesList))
+  if(!ImportTriangles(trianglesList, edgesList, verticesList, argv))
   {
     return 1;
   }
@@ -69,14 +69,17 @@ int main(int argc, char** argv)
   return 0;
 }
 
-bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList)
+bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList, char** argv)
 {
     // Apriamo il file contenente i vertici e creiamo una lista di linee con tutte le info
     ifstream file;
-    file.open("./Dataset/Cell0Ds.csv");
+    file.open(argv[2]);
 
     if(file.fail())
+    {
+      cerr<<"The first path given in input is not valid"<<endl;
       return false;
+    }
 
     list<string> listLines;
     string line;
@@ -125,13 +128,16 @@ bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList)
     return true;
 }
 
-bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList)
+bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList, char** argv)
 {
     ifstream file;
-    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cells1D.csv");
+    file.open(argv[3]);
 
     if(file.fail())
+    {
+      cerr<<"The second path given in input is not valid"<<endl;
       return false;
+    }
 
     list<string> listLines;
     string line;
@@ -192,13 +198,16 @@ bool ImportEdges(vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary:
     return true;
 }
 
-bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList)
+bool ImportTriangles(vector<ProjectLibrary::Triangle>& trianglesList, vector<ProjectLibrary::Edge>& edgesList, vector<ProjectLibrary::Vertex>& verticesList, char** argv)
 {
     ifstream file;
-    file.open("/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Dataset/Cells2D.csv");
+    file.open(argv[4]);
 
     if(file.fail())
+    {
+      cerr<<"The third path given in input is not valid"<<endl;
       return false;
+    }
 
     list<string> listLines;
     string line;
