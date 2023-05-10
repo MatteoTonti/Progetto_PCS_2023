@@ -3,10 +3,12 @@
 
 #include <gtest/gtest.h>
 
-#include "empty_class.hpp"
+#include "geometry_class.hpp"
+#include "sorting.hpp"
 
 using namespace testing;
 using namespace ProjectLibrary;
+using namespace SortingLibrary;
 
 TEST(TestVertex, TestConstructor)
 {
@@ -74,7 +76,7 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
 TEST(TestSorting, TestMergeSort)
 {
     vector<int> v = {44, 26, 12, 2, 16, 7, 9, 23, 5, 98, 32, 48};
-    MergeSort<int>(v, 0, v.size()-1);
+    MergeSort(v, 0, v.size()-1);
     vector<int> sortedV = {98, 48, 44, 32, 26, 23, 16, 12, 9, 7, 5, 2};
     EXPECT_EQ(v, sortedV);
 }

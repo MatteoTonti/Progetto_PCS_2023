@@ -1,4 +1,5 @@
-#include "empty_class.hpp"
+#include "geometry_class.hpp"
+#include "sorting.hpp"
 
 bool ImportVertices(vector<ProjectLibrary::Vertex>& verticesList);
 
@@ -55,7 +56,7 @@ int main(int argc, char** argv)
   // Ordinamento per area decrescente
   unsigned int numTriangles = trianglesList.size();
 
-  ProjectLibrary::MergeSort(trianglesList, 0, numTriangles-1);
+  SortingLibrary::MergeSort(trianglesList, 0, numTriangles-1);
 
   Refine(trianglesList, percentage);
 

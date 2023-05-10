@@ -1,15 +1,16 @@
-#ifndef SORTING_HPP
-#define SORTING_HPP
+#ifndef __SORTING_H
+#define __SORTING_H
 
 #include <iostream>
 #include "Eigen/Eigen"
 #include "cmath"
-#include <fstream>
+#include "map"
 
 using namespace std;
 using namespace Eigen;
 
-namespace SortLibrary {
+namespace SortingLibrary
+{
     template<typename T>
     void Merge(vector<T>& v,
                const unsigned int& sx,
@@ -20,6 +21,7 @@ namespace SortLibrary {
         vector<T> b(v.size());
         while((i <= cx) && (j <= dx))
         {
+            // Notare che è un MergeSort decrescente
             if (v[i] >= v[j])
             {
                 b[k] = v[i];
@@ -55,4 +57,4 @@ namespace SortLibrary {
     }
 }
 
-#endif // SORTING_HPP
+#endif // __SORTING_H
