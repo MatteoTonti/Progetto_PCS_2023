@@ -58,13 +58,9 @@ int main(int argc, char** argv)
   RefineLibrary::Refine(trianglesList, percentage);
 
 
-
   Empty empty;
 
   empty.Show();
 
   return 0;
 }
-
-
-

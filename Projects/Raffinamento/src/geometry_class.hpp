@@ -44,6 +44,7 @@ namespace GeometryLibrary
       unsigned int _id;
       double _length;
       vector<Vertex> _vertices;
+      vector<unsigned int> _edgeOfTriangles;
 
       Edge() = default;
       Edge(unsigned int& id,
@@ -68,7 +69,6 @@ namespace GeometryLibrary
       vector<Vertex> _vertices;
       vector<Edge> _edges;
       double _area;
-      vector<Triangle> _adjacents;
       Edge _longestEdge; 
 
       Triangle() = default;
@@ -88,8 +88,6 @@ namespace GeometryLibrary
   {
     return !(t1 < t2);
   }
-
-
 
 }
 

@@ -15,6 +15,9 @@ namespace RefineLibrary
 {
   void Refine(vector<Triangle>& trianglesList,
               const double& percentage);
+
+  void Bisect(vector<Triangle>& trianglesList,
+              Triangle& triangle);
 }
 
 #endif // __REFINE_H

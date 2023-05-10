@@ -28,6 +28,8 @@ namespace GeometryLibrary
     _id = id;
     _vertices = vertices;
     _edges = edges;
+    for(int i = 0; i < 3; i++)
+        edges[i]._edgeOfTriangles.push_back(_id);
     _area = Area();
     _longestEdge = LongestEdge();
   }
