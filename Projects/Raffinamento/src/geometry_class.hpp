@@ -9,7 +9,7 @@
 using namespace std;
 
 
-namespace ProjectLibrary
+namespace GeometryLibrary
 {
   constexpr double max_tolerance(const double& x, const double& y)
   {

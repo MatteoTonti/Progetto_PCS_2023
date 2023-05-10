@@ -7,7 +7,7 @@
 #include "sorting.hpp"
 
 using namespace testing;
-using namespace ProjectLibrary;
+using namespace GeometryLibrary;
 using namespace SortingLibrary;
 
 TEST(TestVertex, TestConstructor)

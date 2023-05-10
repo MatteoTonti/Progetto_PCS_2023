@@ -4,7 +4,6 @@
 #include <iostream>
 #include "Eigen/Eigen"
 #include "cmath"
-#include "map"
 
 using namespace std;
 using namespace Eigen;

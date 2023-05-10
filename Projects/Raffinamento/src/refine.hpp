@@ -5,13 +5,16 @@
 #include "Eigen/Eigen"
 #include "cmath"
 #include <fstream>
+#include "geometry_class.hpp"
 
 using namespace std;
+using namespace GeometryLibrary;
 
 
 namespace RefineLibrary
 {
-
+  void Refine(vector<Triangle>& trianglesList,
+              const double& percentage);
 }
 
 #endif // __REFINE_H

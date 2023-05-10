@@ -1,6 +1,6 @@
 #include "geometry_class.hpp"
 
-namespace ProjectLibrary
+namespace GeometryLibrary
 {
   Vertex::Vertex(unsigned int& id, double& x, double& y)
   {
