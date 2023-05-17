@@ -16,14 +16,15 @@ namespace RefineLibrary
   void Refine(vector<Triangle>& trianglesList,
               const double& percentage,
               vector<Vertex>& verticesList,
-              unsigned int& lastVertex,
               vector<Edge>& edgesList);
 
   void Bisect(vector<Triangle>& trianglesList,
               Triangle& triangle,
               vector<Vertex>& verticesList,
               unsigned int& lastVertex,
-              unsigned int& lastEdge);
+              unsigned int& lastEdge,
+              unsigned int& lastTriangle,
+              vector<Vertex>& newVertices);
 }
 
 #endif // __REFINE_H

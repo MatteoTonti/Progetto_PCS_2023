@@ -55,9 +55,7 @@ int main(int argc, char** argv)
 
   SortingLibrary::MergeSort(trianglesList, 0, numTriangles-1);
 
-  unsigned int lastVertex = verticesList.size()-1;
-
-  RefineLibrary::Refine(trianglesList, percentage, verticesList, lastVertex);
+  RefineLibrary::Refine(trianglesList, percentage, verticesList, edgesList);
 
 
   Empty empty;
