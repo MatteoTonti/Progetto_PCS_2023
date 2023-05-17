@@ -14,10 +14,16 @@ using namespace GeometryLibrary;
 namespace RefineLibrary
 {
   void Refine(vector<Triangle>& trianglesList,
-              const double& percentage);
+              const double& percentage,
+              vector<Vertex>& verticesList,
+              unsigned int& lastVertex,
+              vector<Edge>& edgesList);
 
   void Bisect(vector<Triangle>& trianglesList,
-              Triangle& triangle);
+              Triangle& triangle,
+              vector<Vertex>& verticesList,
+              unsigned int& lastVertex,
+              unsigned int& lastEdge);
 }
 
 #endif // __REFINE_H

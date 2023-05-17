@@ -37,7 +37,14 @@ namespace GeometryLibrary
   double Triangle::Area()
   {
     // Metodo di Gauss semplificato per calcolare l'area del triangolo dati i suoi vertici
-    _area = 0.5 * abs(((_vertices[0]._x - _vertices[1]._x) * (_vertices[2]._y - _vertices[0]._y) - (_vertices[2]._x - _vertices[0]._x) * (_vertices[1]._y - _vertices[0]._y)));
+    _area = 0.5 * ((_vertices[0]._x - _vertices[1]._x) * (_vertices[2]._y - _vertices[0]._y) - (_vertices[2]._x - _vertices[0]._x) * (_vertices[1]._y - _vertices[0]._y));
+    if(_area<0) // Per ordinare i vertici in senso antiorario
+    {
+      Vertex swap = _vertices[1];
+      _vertices[1] = _vertices[2];
+      _vertices[2] = swap;
+      _area = -_area;
+    }
     return _area;
   }
 

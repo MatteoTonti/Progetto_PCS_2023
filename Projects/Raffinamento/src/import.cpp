@@ -49,14 +49,6 @@ namespace ImportLibrary
 
           verticesList.push_back(newVertex);
 
-          /*if( marker != 0)
-          {
-            if (mesh.Cell0DMarkers.find(marker) == mesh.Cell0DMarkers.end())
-              mesh.Cell0DMarkers.insert({marker, {id}});
-            else
-              mesh.Cell0DMarkers[marker].push_back(id);
-          }*/
-
         }
         return true;
     }
@@ -116,14 +108,6 @@ namespace ImportLibrary
           Edge newEdge = Edge(id, vertices);
 
           edgesList.push_back(newEdge);
-
-          /*if( marker != 0)
-          {
-            if (mesh.Cell1DMarkers.find(marker) == mesh.Cell1DMarkers.end())
-              mesh.Cell1DMarkers.insert({marker, {id}});
-            else
-              mesh.Cell1DMarkers[marker].push_back(id);
-          }*/
         }
 
         file.close();

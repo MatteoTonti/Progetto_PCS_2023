@@ -23,7 +23,7 @@ namespace GeometryLibrary
   class Empty
   {
     public:
-      void Show() const { std::cout<< "LMercu"<< std::endl; }
+      void Show() const { std::cout<< "Funziona"<< std::endl; }
   };
 
   class Vertex
