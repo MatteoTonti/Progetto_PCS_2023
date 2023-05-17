@@ -4,14 +4,17 @@ namespace RefineLibrary
 {
     void Bisect(vector<Triangle>& trianglesList, Triangle& triangle,vector<Vertex>& verticesList, unsigned int& lastVertex, unsigned int& lastEdge, unsigned int& lastTriangle, vector<Vertex>& newVertices)
     {
+      // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
       Edge toBisect = triangle._longestEdge;
       double xm = (toBisect._vertices[0]._x + toBisect._vertices[1]._x) *0.5;
       double ym = (toBisect._vertices[0]._y + toBisect._vertices[1]._y) *0.5;
 
+      // Creiamo il nuovo vertice dato dal punto medio e lo aggiungiamo alla lista dei vertici e alla lista dei vertici creati con la bisezione
       Vertex newVertex = Vertex(++lastVertex, xm, ym);
       verticesList.push_back(newVertex);
       newVertices.push_back(newVertex);
 
+      // Troviamo il vertice opposto al lato più lungo
       Vertex opposite;
       for(unsigned int i = 0; i < 3; i++)
       {
@@ -22,15 +25,17 @@ namespace RefineLibrary
         }
       }
 
-      vector<Vertex> uxtv = {opposite, newVertex};
-      Edge newEdge1 = Edge(++lastEdge, uxtv);
+      // Creiamo i nuovi lati dati dal nuovo vertice(punto medio) collegandolo ai vertici del triangolo di partenza
+      vector<Vertex> v0 = {opposite, newVertex};
+      Edge newEdge1 = Edge(++lastEdge, v0);
 
-      uxtv = {toBisect._vertices[0], newVertex};
-      Edge newEdge2 = Edge(++lastEdge, uxtv);
+      v0 = {toBisect._vertices[0], newVertex};
+      Edge newEdge2 = Edge(++lastEdge, v0);
 
-      uxtv = {toBisect._vertices[1], newVertex};
-      Edge newEdge3 = Edge(++lastEdge, uxtv);
+      v0 = {toBisect._vertices[1], newVertex};
+      Edge newEdge3 = Edge(++lastEdge, v0);
 
+      // Cancelliamo il triangolo che è stato raffinato dalla lista dei triangoli
       for(unsigned int i = 0; i < trianglesList.size(); i++)
       {
         if(trianglesList[i]._id == triangle._id)
@@ -40,6 +45,7 @@ namespace RefineLibrary
         }
       }
 
+      // Facciamo nuovi vettori di vertici e lati per creare i nuovi triangoli
       vector<Vertex> v1 = {opposite, newVertex, toBisect._vertices[0]};
 
       vector<Vertex> v2 = {opposite, newVertex, toBisect._vertices[1]};
@@ -68,9 +74,11 @@ namespace RefineLibrary
       }
       vector<Edge> e2 = {et1, newEdge1, newEdge3};
 
+      // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza
       Triangle newT1 = Triangle(++lastTriangle, v1, e1);
       Triangle newT2 = Triangle(++lastTriangle, v2, e2);
 
+      // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
       Triangle adjacent;
       for(unsigned int i = 0; i < 2; i++)
       {
@@ -87,6 +95,8 @@ namespace RefineLibrary
         }
       }
 
+      // Se il lato più lungo del triangolo adiacente coincide con quello del triangolo di partenza congiungiamo il vertice opposto dell'adiacente
+      // al nuovo vertice e creiamo i nuovi triangoli ottenuti dividendo il triangolo adiacente con lo stesso algoritmo di cui sopra
       if(toBisect._edgeOfTriangles.size() != 1 && adjacent._longestEdge._id == toBisect._id)
       {
           Vertex contr;
