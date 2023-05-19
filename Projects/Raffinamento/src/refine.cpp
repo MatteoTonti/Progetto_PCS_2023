@@ -40,6 +40,7 @@ namespace RefineLibrary
       {
         if(trianglesList[i]._id == triangle._id)
         {
+          cout<<"Removing triangle "<<trianglesList[i]._id<<endl;
           trianglesList.erase(trianglesList.begin()+i);
           break;
         }
@@ -73,7 +74,18 @@ namespace RefineLibrary
           }
       }
       vector<Edge> e2 = {et1, newEdge1, newEdge3};
+      // Togliamo ora l'id del triangolo originale dalla lista di id dei triangoli adiacenti di ciascun lato del triangolo(aggiornamento adiacenze)
+      for(unsigned int i = 0; i < et1._edgeOfTriangles.size();i++)
+      {
+        if(et1._edgeOfTriangles[i] == triangle._id)
+            et1._edgeOfTriangles.erase(et1._edgeOfTriangles.begin()+i);
+      }
 
+      for(unsigned int i = 0; i < et2._edgeOfTriangles.size();i++)
+      {
+        if(et2._edgeOfTriangles[i] == triangle._id)
+            et2._edgeOfTriangles.erase(et2._edgeOfTriangles.begin()+i);
+      }
       // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza
       Triangle newT1 = Triangle(++lastTriangle, v1, e1);
       Triangle newT2 = Triangle(++lastTriangle, v2, e2);
@@ -98,72 +110,83 @@ namespace RefineLibrary
         }
       }
 
+
+
+
       // Se il lato più lungo del triangolo adiacente coincide con quello del triangolo di partenza congiungiamo il vertice opposto dell'adiacente
       // al nuovo vertice e creiamo i nuovi triangoli ottenuti dividendo il triangolo adiacente con lo stesso algoritmo di cui sopra
-      if(toBisect._edgeOfTriangles.size() != 1 && adjacent._longestEdge._id == toBisect._id)
+      switch(toBisect._edgeOfTriangles.size())
       {
-          Vertex contr;
-          for(unsigned int i = 0; i < 3; i++)
+        case 1:
+          break;
+        case 2:
+          if(adjacent._longestEdge._id == toBisect._id)
           {
-            if(!(toBisect._vertices[0]._id == adjacent._vertices[i]._id || toBisect._vertices[1]._id == adjacent._vertices[i]._id))
-            {
-               contr = adjacent._vertices[i];
-               break;
-            }
-
-            vector<Vertex> v4 = {contr, newVertex};
-            Edge newEdge4 = Edge(++lastEdge, v4);
-          }
-
-          for(unsigned int i = 0; i < trianglesList.size(); i++)
-          {
-            if(trianglesList[i]._id == adjacent._id)
-            {
-              trianglesList.erase(trianglesList.begin()+i);
-              break;
-            }
-          }
-          vector<Vertex> v5 = {contr, newVertex, toBisect._vertices[0]};
-
-          vector<Vertex> v6 = {contr, newVertex, toBisect._vertices[1]};
-
-          Edge et3;
-          for(unsigned int i = 0; i < 3; i++)
-          {
-              if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[0]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[0]._id)
-                      && adjacent._edges[i] != toBisect)
+              Vertex contr;
+              for(unsigned int i = 0; i < 3; i++)
               {
-                et3 = adjacent._edges[i];
-                break;
-              }
-          }
-          vector<Edge> e3 = {et1, newEdge1, newEdge2};
+                if(!(toBisect._vertices[0]._id == adjacent._vertices[i]._id || toBisect._vertices[1]._id == adjacent._vertices[i]._id))
+                {
+                   contr = adjacent._vertices[i];
+                   break;
+                }
 
-          Edge et4;
-          for(unsigned int i = 0; i < 3; i++)
-          {
-              if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[1]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[1]._id)
-                      && adjacent._edges[i] != toBisect)
+                vector<Vertex> v4 = {contr, newVertex};
+                Edge newEdge4 = Edge(++lastEdge, v4);
+              }
+
+              for(unsigned int i = 0; i < 2; i++)
               {
-                et4 = adjacent._edges[i];
-                break;
+                if(trianglesList[i]._id == adjacent._id)
+                {
+                  trianglesList.erase(trianglesList.begin()+i);
+                  break;
+                }
               }
+              vector<Vertex> v5 = {contr, newVertex, toBisect._vertices[0]};
+
+              vector<Vertex> v6 = {contr, newVertex, toBisect._vertices[1]};
+
+              Edge et3;
+              for(unsigned int i = 0; i < 3; i++)
+              {
+                  if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[0]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[0]._id)
+                          && adjacent._edges[i] != toBisect)
+                  {
+                    et3 = adjacent._edges[i];
+                    break;
+                  }
+              }
+              vector<Edge> e3 = {et1, newEdge1, newEdge2};
+
+              Edge et4;
+              for(unsigned int i = 0; i < 3; i++)
+              {
+                  if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[1]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[1]._id)
+                          && adjacent._edges[i] != toBisect)
+                  {
+                    et4 = adjacent._edges[i];
+                    break;
+                  }
+              }
+              vector<Edge> e4 = {et1, newEdge1, newEdge3};
+
+              Triangle newT3 = Triangle(++lastTriangle, v5, e3);
+              Triangle newT4 = Triangle(++lastTriangle, v6, e4);
           }
-          vector<Edge> e4 = {et1, newEdge1, newEdge3};
 
-          Triangle newT3 = Triangle(++lastTriangle, v5, e3);
-          Triangle newT4 = Triangle(++lastTriangle, v6, e4);
-      }
+          else if(adjacent._longestEdge._id != toBisect._id)
+          {
 
-      else if(toBisect._edgeOfTriangles.size() != 1 && adjacent._longestEdge._id != toBisect._id)
-      {
+            Bisect(trianglesList, adjacent, verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
 
-        Bisect(trianglesList, adjacent, verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
+            vector<Vertex> v7 = {newVertices[newVertices.size()-1], newVertices[newVertices.size()-2]};
+            Edge connection = Edge(++lastEdge, v7);
 
-        vector<Vertex> v7 = {newVertices[newVertices.size()-1], newVertices[newVertices.size()-2]};
-        Edge connection = Edge(++lastEdge, v7);
 
-        newVertices.pop_back();
+
+            newVertices.pop_back();
+          }
       }
     }
 
