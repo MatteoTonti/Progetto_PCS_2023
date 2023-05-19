@@ -77,6 +77,8 @@ namespace GeometryLibrary
                vector<Edge>& edges);
       double Area();
       Edge LongestEdge();
+      ~Triangle();
+
   };
 
   inline bool operator<(const Triangle& t1, const Triangle& t2)

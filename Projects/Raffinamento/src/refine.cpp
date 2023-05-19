@@ -80,10 +80,12 @@ namespace RefineLibrary
 
       // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
       Triangle adjacent;
-      for(unsigned int i = 0; i < 2; i++)
+      for(unsigned int i = 0; i < toBisect._edgeOfTriangles.size(); i++)
       {
         if(toBisect._edgeOfTriangles[i] != triangle._id)
         {
+          // Poichè nella lista di triangoli a cui appartiene un lato ci sono gli id e non i triangoli, cerchiamo nella
+          // lista dei triangoli e scorriamo finchè non troviamo l'id corrette
           for(unsigned int j = 0; j < trianglesList.size(); j++)
           {
             if(trianglesList[j]._id == toBisect._edgeOfTriangles[i])
@@ -92,6 +94,7 @@ namespace RefineLibrary
               break;
             }
           }
+          break;
         }
       }
 
@@ -168,7 +171,7 @@ namespace RefineLibrary
     void Refine(vector<Triangle>& trianglesList, const double& percentage,vector<Vertex>& verticesList, vector<Edge>& edgesList)
     {
       // Calcoliamo il numero di triangoli da raffinare
-      unsigned int numToBeRefined = trianglesList.size() / 100 * percentage;
+      unsigned int numToBeRefined = (trianglesList.size() *percentage)/100;
 
       // Salviamo in un vettore separato gli id dei triangoli da raffinare, ordinati per area in modo decrescente
       vector<Triangle> toBeRefined;
@@ -185,8 +188,11 @@ namespace RefineLibrary
 
       for(unsigned int i = 0; i < numToBeRefined; i++)
         // Il triangolo da raffinare deve essere all'inizio della lista: se non è quello, allora è già stato raffinato e non c'è più bisogno di farlo
+        {
+        cout<<"Refining triangle number "<<i+1<<endl;
         if(toBeRefined[i]._id == trianglesList[0]._id)
             Bisect(trianglesList, toBeRefined[i], verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
+        }
     }
 
 

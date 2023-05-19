@@ -50,6 +50,8 @@ namespace ImportLibrary
           verticesList.push_back(newVertex);
 
         }
+        cout<<"Vertices succesfully imported"<<endl;
+
         return true;
     }
 
@@ -111,6 +113,7 @@ namespace ImportLibrary
         }
 
         file.close();
+        cout<< "Edges succesfully imported"<<endl;
 
         return true;
     }
@@ -180,6 +183,7 @@ namespace ImportLibrary
           trianglesList.push_back(newTriangle);
         }
         file.close();
+        cout<< "Triangles succesfully imported"<<endl;
         return true;
 
     }

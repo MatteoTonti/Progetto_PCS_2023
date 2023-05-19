@@ -54,9 +54,9 @@ int main(int argc, char** argv)
   unsigned int numTriangles = trianglesList.size();
 
   SortingLibrary::MergeSort(trianglesList, 0, numTriangles-1);
+  cout<< "Vector of triangles successfully sorted by areas"<<endl;
 
   RefineLibrary::Refine(trianglesList, percentage, verticesList, edgesList);
-
 
   Empty empty;
 
