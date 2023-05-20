@@ -67,14 +67,14 @@ namespace GeometryLibrary
     public:
       unsigned int _id;
       vector<Vertex> _vertices;
-      vector<Edge> _edges;
+      vector<Edge*> _edges;
       double _area;
       Edge _longestEdge; 
 
       Triangle() = default;
       Triangle(unsigned int& id,
                vector<Vertex>& vertices,
-               vector<Edge>& edges);
+               vector<Edge*>& edges);
       double Area();
       Edge LongestEdge();
       ~Triangle();

@@ -169,13 +169,13 @@ namespace ImportLibrary
             vertices.push_back(verticesList[j]);
           }
 
-          vector<Edge> edges;
+          vector<Edge*> edges;
           for(unsigned int i = 0; i < 3; i++)
           {
             unsigned int j = 0;
             while(edgesId[i] != edgesList[j]._id)
                 j++;
-            edges.push_back(edgesList[j]);
+            edges.push_back(&edgesList[j]);
           }
 
           Triangle newTriangle = Triangle(id, vertices, edges);

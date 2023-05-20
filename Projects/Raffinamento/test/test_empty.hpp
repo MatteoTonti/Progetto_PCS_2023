@@ -65,13 +65,13 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
   Edge ed2 = Edge(eid2, vs2);
   Edge ed3 = Edge(eid3, vs3);
 
-  vector<Edge> edges = {ed1, ed2, ed3};
+  vector<Edge*> edges = {&ed1, &ed2, &ed3};
 
   Triangle triangle = Triangle(id, vs, edges);
 
   EXPECT_EQ(triangle._area, 95);
   EXPECT_EQ(triangle._longestEdge, ed3);
-  EXPECT_EQ(edges[0]._edgeOfTriangles[0], id);
+  EXPECT_EQ(edges[0]->_edgeOfTriangles[0], id);
 }
 
 TEST(TestSorting, TestMergeSort)

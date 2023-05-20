@@ -54,26 +54,26 @@ namespace RefineLibrary
       Edge et1;
       for(unsigned int i = 0; i < 3; i++)
       {
-          if((triangle._edges[i]._vertices[0]._id == toBisect._vertices[0]._id || triangle._edges[i]._vertices[1]._id == toBisect._vertices[0]._id)
-                  && triangle._edges[i] != toBisect)
+          if((triangle._edges[i]->_vertices[0]._id == toBisect._vertices[0]._id || triangle._edges[i]->_vertices[1]._id == toBisect._vertices[0]._id)
+                  && *triangle._edges[i] != toBisect)
           {
-            et1 = triangle._edges[i];
+            et1 = *triangle._edges[i];
             break;
           }
       }
-      vector<Edge> e1 = {et1, newEdge1, newEdge2};
+      vector<Edge*> e1 = {&et1, &newEdge1, &newEdge2};
 
       Edge et2;
       for(unsigned int i = 0; i < 3; i++)
       {
-          if((triangle._edges[i]._vertices[0]._id == toBisect._vertices[1]._id || triangle._edges[i]._vertices[1]._id == toBisect._vertices[1]._id)
-                  && triangle._edges[i] != toBisect)
+          if((triangle._edges[i]->_vertices[0]._id == toBisect._vertices[1]._id || triangle._edges[i]->_vertices[1]._id == toBisect._vertices[1]._id)
+                  && *triangle._edges[i] != toBisect)
           {
-            et2 = triangle._edges[i];
+            et2 = *triangle._edges[i];
             break;
           }
       }
-      vector<Edge> e2 = {et1, newEdge1, newEdge3};
+      vector<Edge*> e2 = {&et1, &newEdge1, &newEdge3};
       // Togliamo ora l'id del triangolo originale dalla lista di id dei triangoli adiacenti di ciascun lato del triangolo(aggiornamento adiacenze)
       for(unsigned int i = 0; i < et1._edgeOfTriangles.size();i++)
       {
@@ -89,6 +89,9 @@ namespace RefineLibrary
       // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza
       Triangle newT1 = Triangle(++lastTriangle, v1, e1);
       Triangle newT2 = Triangle(++lastTriangle, v2, e2);
+
+      trianglesList.push_back(newT1);
+      trianglesList.push_back(newT2);
 
       // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
       Triangle adjacent;
@@ -150,26 +153,26 @@ namespace RefineLibrary
               Edge et3;
               for(unsigned int i = 0; i < 3; i++)
               {
-                  if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[0]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[0]._id)
-                          && adjacent._edges[i] != toBisect)
+                  if((adjacent._edges[i]->_vertices[0]._id == toBisect._vertices[0]._id || adjacent._edges[i]->_vertices[1]._id == toBisect._vertices[0]._id)
+                          && *adjacent._edges[i] != toBisect)
                   {
-                    et3 = adjacent._edges[i];
+                    et3 = *adjacent._edges[i];
                     break;
                   }
               }
-              vector<Edge> e3 = {et1, newEdge1, newEdge2};
+              vector<Edge*> e3 = {&et1, &newEdge1, &newEdge2};
 
               Edge et4;
               for(unsigned int i = 0; i < 3; i++)
               {
-                  if((adjacent._edges[i]._vertices[0]._id == toBisect._vertices[1]._id || adjacent._edges[i]._vertices[1]._id == toBisect._vertices[1]._id)
-                          && adjacent._edges[i] != toBisect)
+                  if((adjacent._edges[i]->_vertices[0]._id == toBisect._vertices[1]._id || adjacent._edges[i]->_vertices[1]._id == toBisect._vertices[1]._id)
+                          && *adjacent._edges[i] != toBisect)
                   {
-                    et4 = adjacent._edges[i];
+                    et4 = *adjacent._edges[i];
                     break;
                   }
               }
-              vector<Edge> e4 = {et1, newEdge1, newEdge3};
+              vector<Edge*> e4 = {&et1, &newEdge1, &newEdge3};
 
               Triangle newT3 = Triangle(++lastTriangle, v5, e3);
               Triangle newT4 = Triangle(++lastTriangle, v6, e4);
@@ -217,6 +220,5 @@ namespace RefineLibrary
             Bisect(trianglesList, toBeRefined[i], verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
         }
     }
-
 
 }

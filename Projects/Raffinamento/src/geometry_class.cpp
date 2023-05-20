@@ -23,13 +23,13 @@ namespace GeometryLibrary
     return length;
   }
 
-  Triangle::Triangle(unsigned int& id, vector<Vertex>& vertices, vector<Edge>& edges)
+  Triangle::Triangle(unsigned int& id, vector<Vertex>& vertices, vector<Edge*>& edges)
   {
     _id = id;
     _vertices = vertices;
     _edges = edges;
     for(int i = 0; i < 3; i++)
-        _edges[i]._edgeOfTriangles.push_back(_id);
+      edges[i]->_edgeOfTriangles.push_back(_id); // Problema qua: non creiamo le adiacenze nel lato vero
     _area = Area();
     _longestEdge = LongestEdge();
   }
@@ -55,11 +55,11 @@ namespace GeometryLibrary
   Edge Triangle::LongestEdge()
   {
     // Metodo per trovare il lato più lungo
-    Edge longestEdge = _edges[0];
+    Edge longestEdge = *_edges[0];
     for(unsigned int i = 1; i < 3; i++)
     {
-      if(_edges[i]._length > longestEdge._length)
-        longestEdge = _edges[i];
+      if(_edges[i]->_length > longestEdge._length)
+        longestEdge = *_edges[i];
     }
 
     return longestEdge;
