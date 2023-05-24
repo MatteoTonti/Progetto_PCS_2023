@@ -24,7 +24,9 @@ namespace RefineLibrary
               unsigned int& lastVertex,
               unsigned int& lastEdge,
               unsigned int& lastTriangle,
-              vector<Vertex>& newVertices);
+              unsigned int& counter,
+              vector<Vertex>& newVertices,
+              vector<Edge>& newEdges);
 }
 
 #endif // __REFINE_H

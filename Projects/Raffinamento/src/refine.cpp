@@ -2,7 +2,7 @@
 
 namespace RefineLibrary
 {
-    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle,vector<Vertex>& verticesList, unsigned int& lastVertex, unsigned int& lastEdge, unsigned int& lastTriangle, vector<Vertex>& newVertices)
+    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, unsigned int& lastVertex, unsigned int& lastEdge, unsigned int& lastTriangle, unsigned int& counter, vector<Vertex>& newVertices, vector<Edge> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
       Edge* toBisect = &(triangle._longestEdge);
@@ -25,15 +25,19 @@ namespace RefineLibrary
         }
       }
 
+
+
       // Creiamo i nuovi lati dati dal nuovo vertice(punto medio) collegandolo ai vertici del triangolo di partenza
       vector<Vertex*> v0 = {opposite, &newVertex};
       Edge newEdge1 = Edge(++lastEdge, v0);
 
       v0 = {toBisect->_vertices[0], &newVertex};
       Edge newEdge2 = Edge(++lastEdge, v0);
+      //newEdges.push_back(newEdge2);
 
       v0 = {toBisect->_vertices[1], &newVertex};
       Edge newEdge3 = Edge(++lastEdge, v0);
+      //newEdges.push_back(newEdge3);
 
       // Cancelliamo il triangolo che è stato raffinato dalla lista dei triangoli
       for(unsigned int i = 0; i < trianglesList.size(); i++)
@@ -96,39 +100,161 @@ namespace RefineLibrary
       Triangle newT1 = Triangle(++lastTriangle, v1, e1);
       Triangle newT2 = Triangle(++lastTriangle, v2, e2);
 
-
-      Triangle newT3;
-      Triangle newT4;
-
-      Vertex *prec = &newVertices[newVertices.size() - 1];
-      vector<Vertex*> v3 = {&newVertex, prec};
-
-      Edge newConnection = Edge(++lastEdge, v3)
-
-      //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2
-      double areaT1 = 0.5 * ((newVertex._x - opposite->_x) * (toBisect->_vertices[0]->_y - newVertex._y) - (toBisect->_vertices[0]->_x - newVertex._x) * (opposite->_y - newVertex._y));
-      double areaT3 = 0.5 * ((newVertex._x - opposite->_x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (opposite->_y - newVertex._y));
-
-      // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
-      if(areaT1 * areaT3 > 0)
+      if(counter != 0)
       {
-          vector<Vertex*> vT3 = {&newVertex, prec, opposite};
-          Vertex* last;
-          for(unsigned int i = 0; i < 3; i++)
+          Triangle newT3;
+          Triangle newT4;
+
+          Vertex *prec = &newVertices[newVertices.size() - 1];
+          vector<Vertex*> v3 = {&newVertex, prec};
+
+          Edge newConnection = Edge(++lastEdge, v3);
+
+          //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2
+          double areaT1 = 0.5 * ((newVertex._x - opposite->_x) * (toBisect->_vertices[0]->_y - newVertex._y) - (toBisect->_vertices[0]->_x - newVertex._x) * (opposite->_y - newVertex._y));
+          double areaT3 = 0.5 * ((newVertex._x - opposite->_x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (opposite->_y - newVertex._y));
+
+          // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
+          if(areaT1 * areaT3 > 0)
           {
-            if(!(newT1._vertices[i]->_id == newVertex._id || newT1._vertices[i]->_id == opposite->_id))
-            {
-                last = newT1._vertices[i];
-                break;
-            }
+              vector<Vertex*> vT3 = {&newVertex, prec, opposite};
+              Vertex* last = nullptr;
+              for(unsigned int i = 0; i < 3; i++)
+              {
+                if(!(newT1._vertices[i]->_id == newVertex._id || newT1._vertices[i]->_id == opposite->_id))
+                {
+                    last = newT1._vertices[i];
+                    break;
+                }
+              }
+              vector<Vertex*> vT4 = {&newVertex, prec, last};
+
+              Edge* ed3 = nullptr;
+              for(unsigned int i = 0; i<newEdges.size(); i++)
+              {
+                if((newEdges[i]._vertices[0] == opposite && newEdges[i]._vertices[1] == prec) || (newEdges[i]._vertices[1] == opposite && newEdges[i]._vertices[0] == prec))
+                {
+                  ed3 = &newEdges[i];
+                  break;
+                }
+              }
+              vector<Edge*> et3 = {&newConnection, &newEdge1, ed3};
+
+              Edge* ed4 = nullptr;
+              for(unsigned int i = 0; i<newEdges.size(); i++)
+              {
+                if((newEdges[i]._vertices[0] == last && newEdges[i]._vertices[1] == prec) || (newEdges[i]._vertices[1] == last && newEdges[i]._vertices[0] == prec))
+                {
+                  ed4 = &newEdges[i];
+                  break;
+                }
+              }
+              vector<Edge*> et4 = {&newConnection, &newEdge2, ed4};
+
+              newT3 = Triangle(++lastTriangle, vT3, et3);
+              newT4 = Triangle(++lastTriangle, vT4, et4);
+
+              trianglesList.push_back(newT2);
+              trianglesList.push_back(newT3);
+              trianglesList.push_back(newT4);
+
+              for(unsigned int i = 0; i < newEdge1._edgeOfTriangles.size();i++)
+              {
+                if(newEdge1._edgeOfTriangles[i] == triangle._id)
+                {
+                    newEdge1._edgeOfTriangles.erase(newEdge1._edgeOfTriangles.begin()+i);
+                    break;
+                }
+
+              }
+              for(unsigned int i = 0; i < newEdge2._edgeOfTriangles.size();i++)
+              {
+                if(newEdge2._edgeOfTriangles[i] == triangle._id)
+                {
+                    newEdge2._edgeOfTriangles.erase(newEdge2._edgeOfTriangles.begin()+i);
+                    break;
+                }
+              }
+
           }
-          vector<Vertex*> vT4 = {&newVertex, prec, last};
 
-          vector<Edge*> et3 = {&newConnection, &newEdge1}
+          else
+          {
+              vector<Vertex*> vT3 = {&newVertex, prec, opposite};
+              Vertex* last = nullptr;
+              for(unsigned int i = 0; i < 3; i++)
+              {
+                if(!(newT1._vertices[i]->_id == newVertex._id || newT1._vertices[i]->_id == opposite->_id))
+                {
+                    last = newT1._vertices[i];
+                    break;
+                }
+              }
+              vector<Vertex*> vT4 = {&newVertex, prec, last};
 
+              Edge* ed3 = nullptr;
+              for(unsigned int i = 0; i<newEdges.size(); i++)
+              {
+                if((newEdges[i]._vertices[0] == opposite && newEdges[i]._vertices[1] == prec) || (newEdges[i]._vertices[1] == opposite && newEdges[i]._vertices[0] == prec))
+                {
+                  ed3 = &newEdges[i];
+                  break;
+                }
+              }
+              vector<Edge*> et3 = {&newConnection, &newEdge1, ed3};
+
+              Edge* ed4 = nullptr;
+              for(unsigned int i = 0; i<newEdges.size(); i++)
+              {
+                if((newEdges[i]._vertices[0] == last && newEdges[i]._vertices[1] == prec) || (newEdges[i]._vertices[1] == last && newEdges[i]._vertices[0] == prec))
+                {
+                  ed4 = &newEdges[i];
+                  break;
+                }
+              }
+              vector<Edge*> et4 = {&newConnection, &newEdge3, ed4};
+
+              newT3 = Triangle(++lastTriangle, vT3, et3);
+              newT4 = Triangle(++lastTriangle, vT4, et4);
+
+              trianglesList.push_back(newT1);
+              trianglesList.push_back(newT3);
+              trianglesList.push_back(newT4);
+
+              for(unsigned int i = 0; i < newEdge1._edgeOfTriangles.size();i++)
+              {
+                if(newEdge1._edgeOfTriangles[i] == triangle._id)
+                {
+                    newEdge1._edgeOfTriangles.erase(newEdge1._edgeOfTriangles.begin()+i);
+                    break;
+                }
+
+              }
+              for(unsigned int i = 0; i < newEdge3._edgeOfTriangles.size();i++)
+              {
+                if(newEdge3._edgeOfTriangles[i] == triangle._id)
+                {
+                    newEdge3._edgeOfTriangles.erase(newEdge3._edgeOfTriangles.begin()+i);
+                    break;
+                }
+              }
+
+          }
+          newEdges.pop_back();
+          newEdges.pop_back();
+
+          newEdges.push_back(newEdge2);
+          newEdges.push_back(newEdge3);
       }
-      //trianglesList.push_back(newT1);
-      //trianglesList.push_back(newT2);
+      else
+      {
+        trianglesList.push_back(newT1);
+        trianglesList.push_back(newT2);
+
+        newEdges.push_back(newEdge2);
+        newEdges.push_back(newEdge3);
+      }
+      counter++;
 
 
 
@@ -220,15 +346,7 @@ namespace RefineLibrary
           else if(adjacent->_longestEdge._id != toBisect->_id)
           {
             //In questo caso andiamo avanti con la bisezione
-            Bisect(trianglesList, *adjacent, verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
-
-            // Poi creiamo il nuovo lato di congiunzione e i due nuovi triangoli
-            vector<Vertex*> v7 = {&(newVertices[newVertices.size()-1]), &(newVertices[newVertices.size()-2])};
-            Edge newConnection = Edge(++lastEdge, v7);
-
-            for(unsigned int i = 0; i < 3;)
-
-            newVertices.pop_back();
+            Bisect(trianglesList, *adjacent, verticesList, lastVertex, lastEdge, lastTriangle, counter, newVertices, newEdges);
           }
       }
     }
@@ -251,14 +369,18 @@ namespace RefineLibrary
         toBeRefined.push_back(trianglesList[i]);
 
       vector<Vertex> newVertices;
+      vector<Edge> newEdges;
 
       for(unsigned int i = 0; i < numToBeRefined; i++)
         // Il triangolo da raffinare deve essere all'inizio della lista: se non è quello, allora è già stato raffinato e non c'è più bisogno di farlo
-        {
+      {
         cout<<"Refining triangle number "<<i+1<<endl;
         if(toBeRefined[i]._id == trianglesList[0]._id)
-            Bisect(trianglesList, toBeRefined[i], verticesList, lastVertex, lastEdge, lastTriangle, newVertices);
+        {
+          unsigned int counter = 0;
+          Bisect(trianglesList, toBeRefined[i], verticesList, lastVertex, lastEdge, lastTriangle, counter,  newVertices, newEdges);
         }
+      }
     }
 
 }
