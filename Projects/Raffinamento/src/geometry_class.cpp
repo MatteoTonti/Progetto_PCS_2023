@@ -9,7 +9,7 @@ namespace GeometryLibrary
     _y = y;
   }
 
-  Edge::Edge(unsigned int& id, vector<Vertex>& vertices)
+  Edge::Edge(unsigned int& id, vector<Vertex *> &vertices)
   {
     _id = id;
     _vertices = vertices;
@@ -19,11 +19,11 @@ namespace GeometryLibrary
   double Edge::ComputeLength()
   {
     // Calcoliamo la lunghezza del lato tramite i vertici piuttosto che farcela dare in input
-    double length = sqrt(pow((_vertices[0]._x - _vertices[1]._x),2) + pow((_vertices[0]._y - _vertices[1]._y),2));
+    double length = sqrt(pow((_vertices[0]->_x - _vertices[1]->_x),2) + pow((_vertices[0]->_y - _vertices[1]->_y),2));
     return length;
   }
 
-  Triangle::Triangle(unsigned int& id, vector<Vertex>& vertices, vector<Edge*>& edges)
+  Triangle::Triangle(unsigned int& id, vector<Vertex*> &vertices, vector<Edge*>& edges)
   {
     _id = id;
     _vertices = vertices;
@@ -37,10 +37,10 @@ namespace GeometryLibrary
   double Triangle::Area()
   {
     // Metodo di Gauss semplificato per calcolare l'area del triangolo dati i suoi vertici
-    double area = 0.5 * ((_vertices[0]._x - _vertices[1]._x) * (_vertices[2]._y - _vertices[0]._y) - (_vertices[2]._x - _vertices[0]._x) * (_vertices[1]._y - _vertices[0]._y));
+    double area = 0.5 * ((_vertices[0]->_x - _vertices[1]->_x) * (_vertices[2]->_y - _vertices[0]->_y) - (_vertices[2]->_x - _vertices[0]->_x) * (_vertices[1]->_y - _vertices[0]->_y));
     if(area<0) // Per ordinare i vertici in senso antiorario
     {
-      Vertex swap = _vertices[1];
+      Vertex* swap = _vertices[1];
       _vertices[1] = _vertices[2];
       _vertices[2] = swap;
       area = -area;
