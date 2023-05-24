@@ -36,7 +36,7 @@ TEST(TestEdge, TestComputeLength)
   Vertex vertice1 = Vertex(id1, x1, y1);
   Vertex vertice2 = Vertex(id2, x2, y2);
 
-  vector<Vertex> vs = {vertice1, vertice2};
+  vector<Vertex*> vs = {&vertice1, &vertice2};
 
   Edge e = Edge(id, vs);
 
@@ -55,11 +55,11 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
   Vertex vertice2 = Vertex(id2, x2, y2);
   Vertex vertice3 = Vertex(id3, x3, y3);
 
-  vector<Vertex> vs1 = {vertice1, vertice2};
-  vector<Vertex> vs2 = {vertice1, vertice3};
-  vector<Vertex> vs3 = {vertice2, vertice3};
+  vector<Vertex*> vs1 = {&vertice1, &vertice2};
+  vector<Vertex*> vs2 = {&vertice1, &vertice3};
+  vector<Vertex*> vs3 = {&vertice2, &vertice3};
 
-  vector<Vertex> vs = {vertice1, vertice2, vertice3};
+  vector<Vertex*> vs = {&vertice1, &vertice2, &vertice3};
 
   Edge ed1 = Edge(eid1, vs1);
   Edge ed2 = Edge(eid2, vs2);

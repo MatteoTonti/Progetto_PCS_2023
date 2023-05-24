@@ -96,8 +96,41 @@ namespace RefineLibrary
       Triangle newT1 = Triangle(++lastTriangle, v1, e1);
       Triangle newT2 = Triangle(++lastTriangle, v2, e2);
 
-      trianglesList.push_back(newT1);
-      trianglesList.push_back(newT2);
+
+      Triangle newT3;
+      Triangle newT4;
+
+      Vertex *prec = &newVertices[newVertices.size() - 1];
+      vector<Vertex*> v3 = {&newVertex, prec};
+
+      Edge newConnection = Edge(++lastEdge, v3)
+
+      //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2
+      double areaT1 = 0.5 * ((newVertex._x - opposite->_x) * (toBisect->_vertices[0]->_y - newVertex._y) - (toBisect->_vertices[0]->_x - newVertex._x) * (opposite->_y - newVertex._y));
+      double areaT3 = 0.5 * ((newVertex._x - opposite->_x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (opposite->_y - newVertex._y));
+
+      // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
+      if(areaT1 * areaT3 > 0)
+      {
+          vector<Vertex*> vT3 = {&newVertex, prec, opposite};
+          Vertex* last;
+          for(unsigned int i = 0; i < 3; i++)
+          {
+            if(!(newT1._vertices[i]->_id == newVertex._id || newT1._vertices[i]->_id == opposite->_id))
+            {
+                last = newT1._vertices[i];
+                break;
+            }
+          }
+          vector<Vertex*> vT4 = {&newVertex, prec, last};
+
+          vector<Edge*> et3 = {&newConnection, &newEdge1}
+
+      }
+      //trianglesList.push_back(newT1);
+      //trianglesList.push_back(newT2);
+
+
 
       // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
       Triangle *adjacent;
@@ -156,32 +189,32 @@ namespace RefineLibrary
 
               vector<Vertex*> v6 = {contr, &newVertex, toBisect->_vertices[1]};
 
-              Edge* et3 = nullptr;
+              Edge* et5 = nullptr;
               for(unsigned int i = 0; i < 3; i++)
               {
                   if((adjacent->_edges[i]->_vertices[0]->_id == toBisect->_vertices[0]->_id || adjacent->_edges[i]->_vertices[1]->_id == toBisect->_vertices[0]->_id)
                           && *(adjacent->_edges[i]) != *toBisect)
                   {
-                    et3 = adjacent->_edges[i];
+                    et5 = adjacent->_edges[i];
                     break;
                   }
               }
-              vector<Edge*> e3 = {et3, &newEdge1, &newEdge2};
+              vector<Edge*> e3 = {et5, &newEdge1, &newEdge2};
 
-              Edge* et4 = nullptr;
+              Edge* et6 = nullptr;
               for(unsigned int i = 0; i < 3; i++)
               {
                   if((adjacent->_edges[i]->_vertices[0]->_id == toBisect->_vertices[1]->_id || adjacent->_edges[i]->_vertices[1]->_id == toBisect->_vertices[1]->_id)
                           && *(adjacent->_edges[i]) != *toBisect)
                   {
-                    et4 = adjacent->_edges[i];
+                    et6 = adjacent->_edges[i];
                     break;
                   }
               }
-              vector<Edge*> e4 = {et4, &newEdge1, &newEdge3};
+              vector<Edge*> e4 = {et6, &newEdge1, &newEdge3};
 
-              Triangle newT3 = Triangle(++lastTriangle, v5, e3);
-              Triangle newT4 = Triangle(++lastTriangle, v6, e4);
+              Triangle newT5 = Triangle(++lastTriangle, v5, e3);
+              Triangle newT6 = Triangle(++lastTriangle, v6, e4);
           }
 
           else if(adjacent->_longestEdge._id != toBisect->_id)
@@ -191,9 +224,9 @@ namespace RefineLibrary
 
             // Poi creiamo il nuovo lato di congiunzione e i due nuovi triangoli
             vector<Vertex*> v7 = {&(newVertices[newVertices.size()-1]), &(newVertices[newVertices.size()-2])};
-            Edge connection = Edge(++lastEdge, v7);
+            Edge newConnection = Edge(++lastEdge, v7);
 
-
+            for(unsigned int i = 0; i < 3;)
 
             newVertices.pop_back();
           }

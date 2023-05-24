@@ -91,7 +91,7 @@ namespace ImportLibrary
           unsigned int marker;
           unsigned int id0;
           unsigned int id1;
-          vector<Vertex> vertices;
+          vector<Vertex*> vertices;
 
           converter >>  id >> marker >> id0 >> id1;
 
@@ -99,13 +99,13 @@ namespace ImportLibrary
           while(id0 != verticesList[i]._id)
               i++;
 
-          vertices.push_back(verticesList[i]);
+          vertices.push_back(&verticesList[i]);
 
           unsigned int j = 0;
           while(id1 != verticesList[j]._id)
               j++;
 
-          vertices.push_back(verticesList[j]);
+          vertices.push_back(&verticesList[j]);
 
           Edge newEdge = Edge(id, vertices);
 
@@ -160,13 +160,13 @@ namespace ImportLibrary
           for(unsigned int i = 0; i < 3; i++)
             converter >> edgesId[i];
 
-          vector<Vertex> vertices;
+          vector<Vertex*> vertices;
           for(unsigned int i = 0; i < 3; i++)
           {
             unsigned int j = 0;
             while(verticesId[i] != verticesList[j]._id)
                 j++;
-            vertices.push_back(verticesList[j]);
+            vertices.push_back(&verticesList[j]);
           }
 
           vector<Edge*> edges;
