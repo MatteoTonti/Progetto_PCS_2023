@@ -70,7 +70,7 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
   Triangle triangle = Triangle(id, vs, edges);
 
   EXPECT_EQ(triangle._area, 95);
-  EXPECT_EQ(triangle._longestEdge, ed3);
+  EXPECT_EQ(*(triangle._longestEdge), ed3);
   EXPECT_EQ(edges[0]->_edgeOfTriangles[0], id);
 }
 

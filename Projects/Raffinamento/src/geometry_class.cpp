@@ -29,7 +29,7 @@ namespace GeometryLibrary
     _vertices = vertices;
     _edges = edges;
     for(int i = 0; i < 3; i++)
-      edges[i]->_edgeOfTriangles.push_back(_id); // Problema qua: non creiamo le adiacenze nel lato vero
+      edges[i]->_edgeOfTriangles.push_back(_id);
     _area = Area();
     _longestEdge = LongestEdge();
   }
@@ -52,14 +52,14 @@ namespace GeometryLibrary
     cout<<"Removing triangle "<<_id<<endl;
   }
 
-  Edge Triangle::LongestEdge()
+  Edge* Triangle::LongestEdge()
   {
     // Metodo per trovare il lato più lungo
-    Edge longestEdge = *_edges[0];
+    Edge* longestEdge = _edges[0];
     for(unsigned int i = 1; i < 3; i++)
     {
-      if(_edges[i]->_length > longestEdge._length)
-        longestEdge = *_edges[i];
+      if(_edges[i]->_length > longestEdge->_length)
+        longestEdge = _edges[i];
     }
 
     return longestEdge;

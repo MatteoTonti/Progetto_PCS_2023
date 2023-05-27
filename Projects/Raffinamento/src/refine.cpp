@@ -5,7 +5,7 @@ namespace RefineLibrary
     void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, unsigned int& lastVertex, unsigned int& lastEdge, unsigned int& lastTriangle, unsigned int& counter, vector<Vertex>& newVertices, vector<Edge> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
-      Edge* toBisect = &(triangle._longestEdge);
+      Edge* toBisect = triangle._longestEdge;
       double xm = (toBisect->_vertices[0]->_x + toBisect->_vertices[1]->_x) *0.5;
       double ym = (toBisect->_vertices[0]->_y + toBisect->_vertices[1]->_y) *0.5;
 
@@ -259,7 +259,7 @@ namespace RefineLibrary
 
 
       // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
-      Triangle *adjacent;
+      Triangle *adjacent = nullptr;
       for(unsigned int i = 0; i < toBisect->_edgeOfTriangles.size(); i++)
       {
         if(toBisect->_edgeOfTriangles[i] != triangle._id)
@@ -288,7 +288,7 @@ namespace RefineLibrary
         case 1:
           break;
         case 2:
-          if(adjacent->_longestEdge._id == toBisect->_id)
+          if(adjacent->_longestEdge->_id == toBisect->_id)
           {
               Vertex *contr = nullptr;
               for(unsigned int i = 0; i < 3; i++)
@@ -343,7 +343,7 @@ namespace RefineLibrary
               Triangle newT6 = Triangle(++lastTriangle, v6, e4);
           }
 
-          else if(adjacent->_longestEdge._id != toBisect->_id)
+          else if(adjacent->_longestEdge->_id != toBisect->_id)
           {
             //In questo caso andiamo avanti con la bisezione
             Bisect(trianglesList, *adjacent, verticesList, lastVertex, lastEdge, lastTriangle, counter, newVertices, newEdges);
