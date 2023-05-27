@@ -5,10 +5,14 @@
 
 #include "geometry_class.hpp"
 #include "sorting.hpp"
+#include "import.hpp"
+#include "refine.hpp"
 
 using namespace testing;
 using namespace GeometryLibrary;
 using namespace SortingLibrary;
+using namespace ImportLibrary;
+using namespace RefineLibrary;
 
 TEST(TestVertex, TestConstructor)
 {
@@ -80,6 +84,52 @@ TEST(TestSorting, TestMergeSort)
     MergeSort(v, 0, v.size()-1);
     vector<int> sortedV = {98, 48, 44, 32, 26, 23, 16, 12, 9, 7, 5, 2};
     EXPECT_EQ(v, sortedV);
+}
+
+TEST(TestImport1, TestVertices)
+{
+  vector<Vertex> verticesList;
+  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+
+  if(ImportVertices(verticesList, verticesFile))
+  {
+    EXPECT_EQ(verticesList[2]._id, 2);
+    EXPECT_EQ(verticesList[3]._y, 0);
+  }
+}
+
+TEST(TestImport2, TestVertices)
+{
+  vector<Vertex> verticesList;
+  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+
+  vector<Edge> edgesList;
+  string edgesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/1dtry.csv";
+
+  if(ImportVertices(verticesList, verticesFile) && ImportEdges(edgesList, verticesList, edgesFile))
+  {
+    EXPECT_EQ(edgesList[4]._length, sqrt(2));
+    EXPECT_EQ(edgesList[0]._id, 0);
+  }
+}
+
+TEST(TestImport3, TestTriangles)
+{
+  vector<Vertex> verticesList;
+  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+
+  vector<Edge> edgesList;
+  string edgesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/1dtry.csv";
+
+  vector<Triangle> trianglesList;
+  string trianglesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/2dtry.csv";
+
+
+  if(ImportVertices(verticesList, verticesFile) && ImportEdges(edgesList, verticesList, edgesFile) && ImportTriangles(trianglesList, edgesList, verticesList, trianglesFile))
+  {
+    EXPECT_EQ(trianglesList[0]._longestEdge->_id, 4);
+    EXPECT_EQ(trianglesList[1]._area, 0.5);
+  }
 }
 
 #endif // __TEST_EMPTY_H

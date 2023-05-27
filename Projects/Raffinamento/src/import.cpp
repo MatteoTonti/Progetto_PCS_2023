@@ -2,11 +2,11 @@
 
 namespace ImportLibrary
 {
-    bool ImportVertices(vector<Vertex>& verticesList, char** argv)
+    bool ImportVertices(vector<Vertex>& verticesList, string argv)
     {
         // Apriamo il file contenente i vertici e creiamo una lista di linee con tutte le info
         ifstream file;
-        file.open(argv[2]);
+        file.open(argv);
 
         if(file.fail())
         {
@@ -55,10 +55,10 @@ namespace ImportLibrary
         return true;
     }
 
-    bool ImportEdges(vector<Edge>& edgesList, vector<Vertex>& verticesList, char** argv)
+    bool ImportEdges(vector<Edge>& edgesList, vector<Vertex>& verticesList, string argv)
     {
         ifstream file;
-        file.open(argv[3]);
+        file.open(argv);
 
         if(file.fail())
         {
@@ -118,10 +118,10 @@ namespace ImportLibrary
         return true;
     }
 
-    bool ImportTriangles(vector<Triangle>& trianglesList, vector<Edge>& edgesList, vector<Vertex>& verticesList, char** argv)
+    bool ImportTriangles(vector<Triangle>& trianglesList, vector<Edge>& edgesList, vector<Vertex>& verticesList, string argv)
     {
         ifstream file;
-        file.open(argv[4]);
+        file.open(argv);
 
         if(file.fail())
         {

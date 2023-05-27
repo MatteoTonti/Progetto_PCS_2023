@@ -1,4 +1,4 @@
-#include "test_empty.hpp"
+#include "test_all.hpp"
 
 #include <gtest/gtest.h>
 

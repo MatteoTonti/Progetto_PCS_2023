@@ -11,6 +11,7 @@ namespace RefineLibrary
 
       // Creiamo il nuovo vertice dato dal punto medio e lo aggiungiamo alla lista dei vertici e alla lista dei vertici creati con la bisezione
       Vertex newVertex = Vertex(++lastVertex, xm, ym);
+      verticesList.reserve(verticesList.size()+1);
       verticesList.push_back(newVertex);
       newVertices.push_back(newVertex);
 
@@ -291,6 +292,7 @@ namespace RefineLibrary
           if(adjacent->_longestEdge->_id == toBisect->_id)
           {
               Vertex *contr = nullptr;
+              Edge newEdge4;
               for(unsigned int i = 0; i < 3; i++)
               {
                 if(!(toBisect->_vertices[0]->_id == adjacent->_vertices[i]->_id || toBisect->_vertices[1]->_id == adjacent->_vertices[i]->_id))
@@ -300,10 +302,10 @@ namespace RefineLibrary
                 }
 
                 vector<Vertex*> v4 = {contr, &newVertex};
-                Edge newEdge4 = Edge(++lastEdge, v4);
+                newEdge4 = Edge(++lastEdge, v4);
               }
 
-              for(unsigned int i = 0; i < 2; i++)
+              for(unsigned int i = 0; i < trianglesList.size(); i++)
               {
                 if(trianglesList[i]._id == adjacent->_id)
                 {
@@ -325,7 +327,7 @@ namespace RefineLibrary
                     break;
                   }
               }
-              vector<Edge*> e3 = {et5, &newEdge1, &newEdge2};
+              vector<Edge*> e3 = {et5, &newEdge4, &newEdge2};
 
               Edge* et6 = nullptr;
               for(unsigned int i = 0; i < 3; i++)
@@ -337,10 +339,14 @@ namespace RefineLibrary
                     break;
                   }
               }
-              vector<Edge*> e4 = {et6, &newEdge1, &newEdge3};
+              vector<Edge*> e4 = {et6, &newEdge4, &newEdge3};
 
               Triangle newT5 = Triangle(++lastTriangle, v5, e3);
               Triangle newT6 = Triangle(++lastTriangle, v6, e4);
+
+              trianglesList.push_back(newT5);
+              trianglesList.push_back(newT6);
+
           }
 
           else if(adjacent->_longestEdge->_id != toBisect->_id)

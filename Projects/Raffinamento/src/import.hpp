@@ -14,16 +14,16 @@ using namespace GeometryLibrary;
 namespace ImportLibrary
 {
   bool ImportVertices(vector<Vertex>& verticesList,
-                      char** argv);
+                      string argv);
 
   bool ImportEdges(vector<Edge>& edgesList,
                    vector<Vertex>& verticesList,
-                   char** argv);
+                   string argv);
 
   bool ImportTriangles(vector<Triangle>& trianglesList,
                        vector<Edge>& edgesList,
                        vector<Vertex>& verticesList,
-                       char** argv);
+                       string argv);
 }
 
 #endif // __IMPORT_H

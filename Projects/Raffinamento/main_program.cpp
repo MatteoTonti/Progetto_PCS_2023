@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   // Iniziamo importando i vertici
   vector<Vertex> verticesList = {};
 
-  if(!ImportVertices(verticesList, argv))
+  if(!ImportVertices(verticesList, argv[2]))
   {
     return 1;
   }
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
   // Importiamo poi i lati
   vector<Edge> edgesList = {};
 
-  if(!ImportEdges(edgesList, verticesList, argv))
+  if(!ImportEdges(edgesList, verticesList, argv[3]))
   {
     return 1;
   }
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
   // Importiamo poi i triangoli
   vector<Triangle> trianglesList = {};
 
-  if(!ImportTriangles(trianglesList, edgesList, verticesList, argv))
+  if(!ImportTriangles(trianglesList, edgesList, verticesList, argv[4]))
   {
     return 1;
   }
