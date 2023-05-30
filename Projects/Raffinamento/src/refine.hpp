@@ -21,6 +21,7 @@ namespace RefineLibrary
   void Bisect(vector<Triangle>& trianglesList,
               Triangle& triangle,
               vector<Vertex>& verticesList,
+              vector<Edge>& edgesList,
               unsigned int& lastVertex,
               unsigned int& lastEdge,
               unsigned int& lastTriangle,

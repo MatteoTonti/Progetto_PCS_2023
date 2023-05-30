@@ -2,21 +2,21 @@
 
 namespace RefineLibrary
 {
-    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, unsigned int& lastVertex, unsigned int& lastEdge, unsigned int& lastTriangle, unsigned int& counter, vector<Vertex>& newVertices, vector<Edge> &newEdges)
+    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& lastEdge, unsigned int& lastTriangle, unsigned int& counter, vector<Vertex>& newVertices, vector<Edge> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
-      Edge* toBisect = triangle._longestEdge;
-      double xm = (toBisect->_vertices[0]->_x + toBisect->_vertices[1]->_x) *0.5;
-      double ym = (toBisect->_vertices[0]->_y + toBisect->_vertices[1]->_y) *0.5;
+      unsigned int toBisect = triangle._longestEdge;
+      double xm = (verticesList[edgesList[toBisect]._vertices[0]]._x + verticesList[edgesList[toBisect]._vertices[1]]._x) *0.5;
+      double ym = (verticesList[edgesList[toBisect]._vertices[0]]._y + verticesList[edgesList[toBisect]._vertices[1]]._y) *0.5;
 
       // Creiamo il nuovo vertice dato dal punto medio e lo aggiungiamo alla lista dei vertici e alla lista dei vertici creati con la bisezione
-      Vertex newVertex = Vertex(++lastVertex, xm, ym);
-      verticesList.reserve(verticesList.size()+1);
+      unsigned int newIndex = verticesList.size();
+      Vertex newVertex = Vertex(newIndex, xm, ym);
       verticesList.push_back(newVertex);
       newVertices.push_back(newVertex);
 
       // Troviamo il vertice opposto al lato più lungo
-      Vertex* opposite = nullptr;
+      unsigned int opposite;
       for(unsigned int i = 0; i < 3; i++)
       {
         if(!(toBisect->_vertices[0]->_id == triangle._vertices[i]->_id || toBisect->_vertices[1]->_id == triangle._vertices[i]->_id))
@@ -363,29 +363,24 @@ namespace RefineLibrary
       // Calcoliamo il numero di triangoli da raffinare
       unsigned int numToBeRefined = (trianglesList.size() *percentage)/100;
 
-      // Salviamo in un vettore separato gli id dei triangoli da raffinare, ordinati per area in modo decrescente
-      vector<Triangle> toBeRefined;
-      toBeRefined.reserve(numToBeRefined);
-
-      unsigned int lastVertex = verticesList.size() - 1;
       unsigned int lastEdge = edgesList.size() - 1;
       unsigned int lastTriangle = trianglesList.size() - 1;
-
-      for(unsigned int i = 0; i < numToBeRefined; i++)
-        toBeRefined.push_back(trianglesList[i]);
+      unsigned int counter = 0;
 
       vector<Vertex> newVertices;
       vector<Edge> newEdges;
 
+      // Ripetiamo il seguente algoritmo per numToBeRefined volte, in modo da raffinare il triangolo ad area maggiore il numero di volte richiesto
       for(unsigned int i = 0; i < numToBeRefined; i++)
-        // Il triangolo da raffinare deve essere all'inizio della lista: se non è quello, allora è già stato raffinato e non c'è più bisogno di farlo
+      // Prendiamo il primo triangolo della lista attivo, che sappiamo essere quello ad area maggiore
       {
-        cout<<"Refining triangle number "<<i+1<<endl;
-        if(toBeRefined[i]._id == trianglesList[0]._id)
-        {
-          unsigned int counter = 0;
-          Bisect(trianglesList, toBeRefined[i], verticesList, lastVertex, lastEdge, lastTriangle, counter,  newVertices, newEdges);
-        }
+        unsigned int j = 0;
+        // Finchè abbiamo triangoli non attivi, prendo il successivo finchè non ne trovo uno attivo
+        while(!trianglesList[j]._status)
+            j++;
+
+        // Biseziono il triangolo
+        Bisect(trianglesList, trianglesList[j], verticesList, edgesList, lastEdge, lastTriangle, counter, newVertices, newEdges);
       }
     }
 

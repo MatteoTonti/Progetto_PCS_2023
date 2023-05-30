@@ -43,13 +43,13 @@ namespace GeometryLibrary
     public:
       unsigned int _id;
       double _length;
-      vector<Vertex*> _vertices;
+      vector<unsigned int> _vertices;
       vector<unsigned int> _edgeOfTriangles;
 
       Edge() = default;
       Edge(unsigned int& id,
            vector<Vertex*>& vertices);
-      double ComputeLength();
+      double ComputeLength(vector<Vertex*>& vertices);
   };
 
   inline bool operator==(const Edge& e1, const Edge& e2)
@@ -66,29 +66,31 @@ namespace GeometryLibrary
   {
     public:
       unsigned int _id;
-      vector<Vertex*> _vertices;
-      vector<Edge*> _edges;
+      vector<unsigned int> _vertices;
+      vector<unsigned int> _edges;
       double _area;
-      Edge* _longestEdge;
+      unsigned int _longestEdge;
+      bool _status;
+
 
       Triangle() = default;
       Triangle(unsigned int& id,
                vector<Vertex*>& vertices,
                vector<Edge*>& edges);
-      double Area();
-      Edge* LongestEdge();
+      double Area(vector<Vertex*>& vertices);
+      unsigned int LongestEdge(vector<Edge*>& edges);
       ~Triangle();
 
   };
 
-  inline bool operator<(const Triangle& t1, const Triangle& t2)
+  inline bool operator>(const Triangle& t1, const Triangle& t2)
   {
-    return t1._area < t2._area + geometricTol_Squared * max(t1._area, t2._area);
+    return t1._area > t2._area + geometricTol_Squared * max(t1._area, t2._area);
   }
 
-  inline bool operator>=(const Triangle& t1, const Triangle& t2)
+  inline bool operator<=(const Triangle& t1, const Triangle& t2)
   {
-    return !(t1 < t2);
+    return !(t1 > t2);
   }
 
 }

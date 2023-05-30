@@ -10,50 +10,52 @@ using namespace Eigen;
 
 namespace SortingLibrary
 {
-    template<typename T>
-    void Merge(vector<T>& v,
-               const unsigned int& sx,
-               const unsigned int& cx,
-               const unsigned int& dx)
-    {
-        unsigned int i = sx, j = cx + 1, k = 0;
-        vector<T> b(v.size());
-        while((i <= cx) && (j <= dx))
-        {
-            // Notare che è un MergeSort decrescente
-            if (v[i] >= v[j])
-            {
-                b[k] = v[i];
-                i++;
-            }
-            else
-            {
-                b[k] = v[j];
-                j++;
-            }
-            k++;
-        }
-        for (; i <= cx; i++, k++)
-            b[k] = v[i];
-        for (; j <= dx; j++, k++)
-            b[k] = v[j];
-        for (i = sx; i <= dx; i++)
-            v[i] = b[i-sx];
-    }
+  template<typename T>
+  vector<T> MakeHeap(vector<T>& v, int&n, int id_root){
+          int id_max = id_root; // inizializzo il più piccolo col padre
+          int s = id_root * 2 + 1; // figlio sinistro ha indice 2*id_root+1
+          int d = id_root * 2 + 2; // il destro 2*id_root+ 2
+          T max = v[id_max];
 
-    template<typename T>
-    void MergeSort(vector<T>& v,
-               const unsigned int& sx,
-               const unsigned int& dx)
-    {
-        if (sx < dx)
-        {
-            unsigned int cx = (sx + dx) / 2;
-            MergeSort(v, sx, cx);
-            MergeSort(v, cx+1, dx);
-            Merge(v, sx, cx, dx);
-        }
-    }
+          if (s < n && v[s] > v[id_max])  // se s > del padre; è necessaria la condiz s < n, perchè magari ho solo il figlio sinistro
+          {
+              id_max = s;
+              max = v[id_max];
+          }
+
+          if (d < n && v[d] > v[id_max]) // se d > dell'attuale max
+          {
+              id_max = d;
+              max = v[id_max];
+          }
+
+          if (id_max != id_root) // se il max non è la root
+          {
+              v[id_max] = v[id_root];
+              v[id_root] = max;
+
+              MakeHeap(v, n, id_max);  // ricorsivo
+          }
+          return v;
+      }
+
+  template<typename T>
+  vector<T> HeapSort(const vector<T>& v){
+
+      // come prima cosa, trasformo il vettore in un heap
+      vector<T> vSorted = v;  //vCopia non è const e quindi posso modificarlo
+      int n = v.size();  // dimensione del vettore
+      for (int i = n / 2 - 1; i >= 0; i--)
+              MakeHeap(vSorted, n, i);  // ho reso il vettore un heap
+
+      // ora lo ordino
+      for (int i = n - 1; i >= 0; i--)
+      {
+              swap(vSorted[0], vSorted[i]);  // sposto in ultima posizione la root, che è il numero più grande
+              MakeHeap(vSorted, i, 0);  // uso MakeHeap sul nuovo vettore ridotto
+      }
+      return vSorted;
+  }
 }
 
 #endif // __SORTING_H

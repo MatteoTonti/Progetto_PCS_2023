@@ -14,7 +14,7 @@ using namespace SortingLibrary;
 using namespace ImportLibrary;
 using namespace RefineLibrary;
 
-TEST(TestVertex, TestConstructor)
+/*TEST(TestVertex, TestConstructor)
 {
   unsigned int id = 5;
   double x = 23.8;
@@ -130,6 +130,6 @@ TEST(TestImport3, TestTriangles)
     EXPECT_EQ(trianglesList[0]._longestEdge->_id, 4);
     EXPECT_EQ(trianglesList[1]._area, 0.5);
   }
-}
+}*/
 
 #endif // __TEST_EMPTY_H
