@@ -40,10 +40,13 @@ namespace OutputLibrary{
 
         for(unsigned int i = 0; i<trianglesList.size(); i++)
         {
-          file<<trianglesList[i]._id<<' ';
-          for(unsigned int j = 0; j < 3; j++)
-              file<<trianglesList[i]._vertices[j]<<' ';
-          file<<endl;
+          if(trianglesList[i]._status)
+          {
+            file<<trianglesList[i]._id<<' ';
+            for(unsigned int j = 0; j < 3; j++)
+            file<<trianglesList[i]._vertices[j]<<' ';
+            file<<endl;
+          }
         }
 
         file.close();
