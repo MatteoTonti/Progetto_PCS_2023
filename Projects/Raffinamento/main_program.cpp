@@ -2,9 +2,11 @@
 #include "sorting.hpp"
 #include "import.hpp"
 #include "refine.hpp"
+#include "output.hpp"
 
 using namespace ImportLibrary;
 using namespace GeometryLibrary;
+using namespace OutputLibrary;
 
 int main(int argc, char** argv)
 {
@@ -55,6 +57,8 @@ int main(int argc, char** argv)
   cout<< "Vector of triangles successfully sorted by areas"<<endl;
 
   RefineLibrary::Refine(sortedTriangles, trianglesList, percentage, verticesList, edgesList);
+
+  //if(!(ExportVertices()))
 
   Empty empty;
 
