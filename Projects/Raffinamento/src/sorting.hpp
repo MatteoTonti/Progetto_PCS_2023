@@ -51,8 +51,8 @@ namespace SortingLibrary
       // ora lo ordino
       for (int i = n - 1; i >= 0; i--)
       {
-              swap(vSorted[0], vSorted[i]);  // sposto in ultima posizione la root, che è il numero più grande
-              MakeHeap(vSorted, i, 0);  // uso MakeHeap sul nuovo vettore ridotto
+          swap(vSorted[0], vSorted[i]);  // sposto in ultima posizione la root, che è il numero più grande
+          MakeHeap(vSorted, i, 0);  // uso MakeHeap sul nuovo vettore ridotto
       }
       return vSorted;
   }

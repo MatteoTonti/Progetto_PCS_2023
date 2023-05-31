@@ -79,8 +79,6 @@ namespace GeometryLibrary
                vector<Edge*>& edges);
       double Area(vector<Vertex*>& vertices);
       unsigned int LongestEdge(vector<Edge*>& edges);
-      ~Triangle();
-
   };
 
   inline bool operator>(const Triangle& t1, const Triangle& t2)

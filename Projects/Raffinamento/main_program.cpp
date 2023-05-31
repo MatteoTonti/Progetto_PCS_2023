@@ -51,12 +51,10 @@ int main(int argc, char** argv)
   }
 
   // Ordinamento per area decrescente
-  unsigned int numTriangles = trianglesList.size();
-
-  trianglesList = SortingLibrary::HeapSort(trianglesList);
+  vector<Triangle> sortedTriangles = SortingLibrary::HeapSort(trianglesList);
   cout<< "Vector of triangles successfully sorted by areas"<<endl;
 
-  //RefineLibrary::Refine(trianglesList, percentage, verticesList, edgesList);
+  RefineLibrary::Refine(sortedTriangles, trianglesList, percentage, verticesList, edgesList);
 
   Empty empty;
 

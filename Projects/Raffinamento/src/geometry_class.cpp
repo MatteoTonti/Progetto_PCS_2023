@@ -58,10 +58,6 @@ namespace GeometryLibrary
     return area;
   }
 
-  Triangle::~Triangle(){
-    cout<<"Removing triangle "<<_id<<endl;
-  }
-
   unsigned int Triangle::LongestEdge(vector<Edge*>& edges)
   {
     // Metodo per trovare il lato più lungo
