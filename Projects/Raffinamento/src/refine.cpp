@@ -105,7 +105,7 @@ namespace RefineLibrary
           double areaT3 = 0.5 * ((newVertex._x - verticesList[opposite]._x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (verticesList[opposite]._y - newVertex._y));
 
           // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
-          if(areaT1 * areaT3 > 0)
+          if(areaT1 * areaT3 > 0) /// QUALCOSA DI SBAGLIATO!!!
           {
               vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]};
               unsigned int last = NULL; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
@@ -170,7 +170,7 @@ namespace RefineLibrary
               {
                 if((newEdges[i]._vertices[0] == opposite && newEdges[i]._vertices[1] == prec->_id) || (newEdges[i]._vertices[1] == opposite && newEdges[i]._vertices[0] == prec->_id))
                 {
-                  ed3 = &edgesList[newEdges[i]._id];
+                  ed3 = &newEdges[i];
                   break;
                 }
               }
@@ -209,35 +209,32 @@ namespace RefineLibrary
             numberActive++;
       }
 
-      if(numberActive == 2)
+      if(numberActive == 1)
       {
         // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
-        Triangle *adjacent = nullptr;
+        unsigned int adjacent = NULL;
         for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
         {
-          if(edgesList[toBisect]._edgeOfTriangles[i] != triangle._id && trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
+          if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
           {
-            adjacent = &trianglesList[edgesList[toBisect]._edgeOfTriangles[i]];
+            adjacent = edgesList[toBisect]._edgeOfTriangles[i];
             break;
           }
         }
-        if(adjacent->_longestEdge == edgesList[toBisect]._id)
+        if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
         {
             unsigned int contr = NULL; // Id del vertice opposto
             Edge newEdge4;
             for(unsigned int i = 0; i < 3; i++) // Troviamo il vertice opposto al lato più lungo
             {
-              if(!(edgesList[toBisect]._vertices[0] == adjacent->_vertices[i] || edgesList[toBisect]._vertices[1] == adjacent->_vertices[i]))
+              if(!(edgesList[toBisect]._vertices[0] == trianglesList[adjacent]._vertices[i] || edgesList[toBisect]._vertices[1] == trianglesList[adjacent]._vertices[i]))
               {
-                 contr = adjacent->_vertices[i];
-                 break;
+                contr = trianglesList[adjacent]._vertices[i];
               }
-
-              vector<Vertex*> v4 = {&verticesList[contr], &newVertex}; // Vertici del nuovo lato
-              newEdge4 = Edge(++newE, v4);
-              edgesList.push_back(newEdge4);// nuovo lato
             }
-
+            vector<Vertex*> v4 = {&verticesList[contr], &newVertex}; // Vertici del nuovo lato
+            newEdge4 = Edge(++newE, v4);
+            edgesList.push_back(newEdge4);
             vector<Vertex*> v5 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[0]]}; // Vettore per T5
 
             vector<Vertex*> v6 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]}; // Vettore per T6
@@ -245,10 +242,10 @@ namespace RefineLibrary
             Edge* et5 = nullptr; //Troviamo il lato del triangolo adiacente che appartiene a T5, che è il triangolo con il vertice 0
             for(unsigned int i = 0; i < 3; i++)
             {
-                  if((edgesList[adjacent->_edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[adjacent->_edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
-                          && adjacent->_edges[i] != toBisect)
+                  if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
+                          && trianglesList[adjacent]._edges[i] != toBisect)
                   {
-                    et5 = &edgesList[adjacent->_edges[i]];
+                    et5 = &edgesList[trianglesList[adjacent]._edges[i]];
                     break;
                   }
               }
@@ -257,10 +254,10 @@ namespace RefineLibrary
               Edge* et6 = nullptr; //Troviamo il lato del triangolo adiacente che appartiene a T6, che è il triangolo con il vertice 1
               for(unsigned int i = 0; i < 3; i++)
               {
-                  if((edgesList[adjacent->_edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1] || edgesList[adjacent->_edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
-                          && adjacent->_edges[i] != toBisect)
+                  if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
+                          && trianglesList[adjacent]._edges[i] != toBisect)
                   {
-                    et6 = &edgesList[adjacent->_edges[i]];
+                    et6 = &edgesList[trianglesList[adjacent]._edges[i]];
                     break;
                   }
               }
@@ -269,17 +266,17 @@ namespace RefineLibrary
               Triangle newT5 = Triangle(++indT, v5, e3);
               Triangle newT6 = Triangle(++indT, v6, e4);
 
-              adjacent->_status = false;
+              trianglesList[adjacent]._status = false;
 
               trianglesList.push_back(newT5);
               trianglesList.push_back(newT6);
 
           }
 
-          else if(adjacent->_longestEdge != toBisect)
+          else if(trianglesList[adjacent]._longestEdge != toBisect)
           {
             //In questo caso andiamo avanti con la bisezione
-            Bisect(trianglesList, *adjacent, verticesList, edgesList, counter, newVertices, newEdges);
+            Bisect(trianglesList, trianglesList[adjacent], verticesList, edgesList, counter, newVertices, newEdges);
           }
       }
     }
