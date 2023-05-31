@@ -36,7 +36,7 @@ namespace OutputLibrary{
           return false;
         }
 
-        file<<"Id Vertices"<<endl;
+        file<<"Id V1 V2 V3"<<endl;
 
         for(unsigned int i = 0; i<trianglesList.size(); i++)
         {

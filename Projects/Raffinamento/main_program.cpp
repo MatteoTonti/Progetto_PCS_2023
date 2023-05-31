@@ -11,9 +11,9 @@ using namespace OutputLibrary;
 int main(int argc, char** argv)
 {
   // Preliminarmente controlliamo che sia stata passata la percentuale al programma
-  if(argc < 5)
+  if(argc < 7)
   {
-    cerr<<"At least 4 arguments have to be passed"<<endl;
+    cerr<<"At least 6 arguments have to be passed"<<endl;
     return -1;
   }
 
@@ -58,7 +58,15 @@ int main(int argc, char** argv)
 
   RefineLibrary::Refine(sortedTriangles, trianglesList, percentage, verticesList, edgesList);
 
-  //if(!(ExportVertices()))
+  if(!(ExportVertices(argv[5], verticesList)))
+  {
+    return 1;
+  }
+
+  if(!(ExportTriangles(argv[6], trianglesList)))
+  {
+    return 1;
+  }
 
   Empty empty;
 
