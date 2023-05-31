@@ -48,7 +48,7 @@ namespace RefineLibrary
       edgesList.push_back(newEdge3);
 
       // Spegniamo il triangolo che è stato raffinato
-      triangle._status = false;
+      trianglesList[triangle._id]._status = false;
 
       // Facciamo nuovi vettori di vertici e lati per creare i nuovi triangoli
       vector<Vertex*> v1 = {&verticesList[opposite], &newVertex, &verticesList[edgesList[toBisect]._vertices[0]]};
@@ -145,7 +145,7 @@ namespace RefineLibrary
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
 
-              newT1._status = false; // Si spegne il triangolo bisezionato
+              trianglesList[newT1._id]._status = false; // Si spegne il triangolo bisezionato
 
               trianglesList.push_back(newT3);
               trianglesList.push_back(newT4);
@@ -190,7 +190,7 @@ namespace RefineLibrary
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
 
-              newT2._status = false;
+              trianglesList[newT2._id]._status = false;
 
               trianglesList.push_back(newT3);
               trianglesList.push_back(newT4);

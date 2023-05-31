@@ -17,13 +17,13 @@ namespace SortingLibrary
           int d = id_root * 2 + 2; // il destro 2*id_root+ 2
           T max = v[id_max];
 
-          if (s < n && v[s] > v[id_max])  // se s > del padre; è necessaria la condiz s < n, perchè magari ho solo il figlio sinistro
+          if (s < n && v[s] < v[id_max])  // se s > del padre; è necessaria la condiz s < n, perchè magari ho solo il figlio sinistro
           {
               id_max = s;
               max = v[id_max];
           }
 
-          if (d < n && v[d] > v[id_max]) // se d > dell'attuale max
+          if (d < n && v[d] < v[id_max]) // se d > dell'attuale max
           {
               id_max = d;
               max = v[id_max];

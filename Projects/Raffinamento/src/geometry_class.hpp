@@ -81,14 +81,14 @@ namespace GeometryLibrary
       unsigned int LongestEdge(vector<Edge*>& edges);
   };
 
-  inline bool operator>(const Triangle& t1, const Triangle& t2)
+  inline bool operator<(const Triangle& t1, const Triangle& t2)
   {
-    return t1._area > t2._area + geometricTol_Squared * max(t1._area, t2._area);
+    return t1._area < t2._area + geometricTol_Squared * max(t1._area, t2._area);
   }
 
-  inline bool operator<=(const Triangle& t1, const Triangle& t2)
+  inline bool operator>=(const Triangle& t1, const Triangle& t2)
   {
-    return !(t1 > t2);
+    return !(t1 < t2);
   }
 
 }
