@@ -104,8 +104,19 @@ namespace RefineLibrary
           double areaT1 = 0.5 * ((newVertex._x - verticesList[opposite]._x) * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) - (verticesList[edgesList[toBisect]._vertices[0]]._x - newVertex._x) * (verticesList[opposite]._y - newVertex._y));
           double areaT3 = 0.5 * ((newVertex._x - verticesList[opposite]._x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (verticesList[opposite]._y - newVertex._y));
 
+          //u =opposite - tobisect[0]
+          //v = prec - tobisect[0]
+          double x_u = verticesList[opposite]._x - verticesList[edgesList[toBisect]._vertices[0]]._x;
+          double y_u = verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y;
+
+          double x_v = prec->_x - verticesList[edgesList[toBisect]._vertices[0]]._x;
+          double y_v = prec->_y - verticesList[edgesList[toBisect]._vertices[0]]._y;
+
+          double prodvett = x_u * y_v - y_u * x_v;
+
+
           // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
-          if(areaT1 * areaT3 > 0) /// QUALCOSA DI SBAGLIATO!!!
+          if(prodvett < GeometryLibrary :: geometricTol) /// QUALCOSA DI SBAGLIATO!!!
           {
               vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]};
               unsigned int last = NULL; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
@@ -308,5 +319,5 @@ namespace RefineLibrary
         newEdges = {};
         counter = 0;
       }
-    } 
+    }
 }
