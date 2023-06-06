@@ -100,9 +100,9 @@ namespace RefineLibrary
           Edge newConnection = Edge(++newE, v3);
           edgesList.push_back(newConnection);
 
-          //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2: lla positività dell'area me lo dice
-          double areaT1 = 0.5 * ((newVertex._x - verticesList[opposite]._x) * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) - (verticesList[edgesList[toBisect]._vertices[0]]._x - newVertex._x) * (verticesList[opposite]._y - newVertex._y));
-          double areaT3 = 0.5 * ((newVertex._x - verticesList[opposite]._x) * (prec->_y - newVertex._y) - (prec->_x - newVertex._x) * (verticesList[opposite]._y - newVertex._y));
+          //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2: lla positività dell'area me lo dice A new B opp C prec
+          double areaT1 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y) + verticesList[opposite]._x * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) + verticesList[edgesList[toBisect]._vertices[0]]._x * (newVertex._y - verticesList[opposite]._y));
+          double areaT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - prec->_y) + verticesList[opposite]._x * (prec->_y - newVertex._y) + prec->_x * (newVertex._y - verticesList[opposite]._y));
 
           //u =opposite - tobisect[0]
           //v = prec - tobisect[0]
