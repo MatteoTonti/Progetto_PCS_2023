@@ -14,7 +14,7 @@ using namespace SortingLibrary;
 using namespace ImportLibrary;
 using namespace RefineLibrary;
 
-/*TEST(TestVertex, TestConstructor)
+TEST(TestVertex, TestConstructor)
 {
   unsigned int id = 5;
   double x = 23.8;
@@ -45,7 +45,7 @@ TEST(TestEdge, TestComputeLength)
   Edge e = Edge(id, vs);
 
   EXPECT_EQ(e._length, 19);
-}*/
+}
 
 TEST(TestTriangle, TestAreaAndLongestEdge)
 {
@@ -78,12 +78,12 @@ TEST(TestTriangle, TestAreaAndLongestEdge)
   EXPECT_EQ(edges[0]->_edgeOfTriangles[0], id);
 }
 
-/*TEST(TestSorting, TestMergeSort)
+TEST(TestSorting, TestHeapSort)
 {
     vector<int> v = {44, 26, 12, 2, 16, 7, 9, 23, 5, 98, 32, 48};
-    MergeSort(v, 0, v.size()-1);
+    vector<int> heapSorted = HeapSort(v);
     vector<int> sortedV = {98, 48, 44, 32, 26, 23, 16, 12, 9, 7, 5, 2};
-    EXPECT_EQ(v, sortedV);
+    EXPECT_EQ(heapSorted, sortedV);
 }
 
 TEST(TestImport1, TestVertices)
@@ -127,9 +127,8 @@ TEST(TestImport3, TestTriangles)
 
   if(ImportVertices(verticesList, verticesFile) && ImportEdges(edgesList, verticesList, edgesFile) && ImportTriangles(trianglesList, edgesList, verticesList, trianglesFile))
   {
-    EXPECT_EQ(trianglesList[0]._longestEdge->_id, 4);
+    EXPECT_EQ(trianglesList[0]._longestEdge, 4);
     EXPECT_EQ(trianglesList[1]._area, 0.5);
   }
-}*/
-
+}
 #endif // __TEST_EMPTY_H

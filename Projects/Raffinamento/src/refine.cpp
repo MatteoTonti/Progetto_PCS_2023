@@ -16,7 +16,7 @@ namespace RefineLibrary
       newVertices.push_back(newVertex);
 
       // Troviamo il vertice opposto al lato più lungo
-      unsigned int opposite = NULL;
+      unsigned int opposite = 0;
       for(unsigned int i = 0; i < 3; i++)
       {
         if(!(edgesList[toBisect]._vertices[0] == triangle._vertices[i] || edgesList[toBisect]._vertices[1] == triangle._vertices[i]))
@@ -40,7 +40,6 @@ namespace RefineLibrary
       Edge newEdge2 = Edge(++newE, v0);
       newEdges.push_back(newEdge2);
       edgesList.push_back(newEdge2);
-
       // Lato bisezionato 2
       v0 = {&verticesList[edgesList[toBisect]._vertices[1]], &newVertex};
       Edge newEdge3 = Edge(++newE, v0);
@@ -56,7 +55,7 @@ namespace RefineLibrary
       vector<Vertex*> v2 = {&verticesList[opposite], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]};
 
       //Cerchiamo i lati del triangolo non bisezionati
-      unsigned int et1 = NULL;
+      unsigned int et1 = 0;
       for(unsigned int i = 0; i < 3; i++)
       {
           if((edgesList[triangle._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[triangle._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
@@ -69,7 +68,7 @@ namespace RefineLibrary
       vector<Edge*> e1 = {&edgesList[et1], &newEdge1, &newEdge2};
 
       // Secondo lato non bisezionato
-      unsigned int et2 = NULL; // Qua ho messo null per togliere un warning, potrebbe andare bene?
+      unsigned int et2 = 0; // Qua ho messo null per togliere un warning, potrebbe andare bene?
       for(unsigned int i = 0; i < 3; i++)
       {
           if((edgesList[triangle._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1]|| edgesList[triangle._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
@@ -108,7 +107,7 @@ namespace RefineLibrary
           if(areaT1 * areaT3 > 0) /// QUALCOSA DI SBAGLIATO!!!
           {
               vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]};
-              unsigned int last = NULL; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
+              unsigned int last = 0; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
               for(unsigned int i = 0; i < 3; i++)
               {
                 if(!(newT1._vertices[i] == newVertex._id || newT1._vertices[i] == opposite))
@@ -154,7 +153,7 @@ namespace RefineLibrary
           else
           {
               vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]}; // Vettore di vertici per t3
-              unsigned int last = NULL;
+              unsigned int last = 0;
               for(unsigned int i = 0; i < 3; i++)
               {
                 if(!(newT2._vertices[i] == newVertex._id || newT2._vertices[i] == opposite))
@@ -212,7 +211,7 @@ namespace RefineLibrary
       if(numberActive == 1)
       {
         // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
-        unsigned int adjacent = NULL;
+        unsigned int adjacent = 0;
         for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
         {
           if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
@@ -223,7 +222,7 @@ namespace RefineLibrary
         }
         if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
         {
-            unsigned int contr = NULL; // Id del vertice opposto
+            unsigned int contr = 0; // Id del vertice opposto
             Edge newEdge4;
             for(unsigned int i = 0; i < 3; i++) // Troviamo il vertice opposto al lato più lungo
             {
