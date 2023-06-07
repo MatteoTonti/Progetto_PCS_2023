@@ -26,8 +26,8 @@ int main(int argc, char** argv)
   {
     cerr<<"The percentage has to be a number between 0 and 100"<<endl;
     return -1;
-  }
-  */
+  }*/
+
 
   // Iniziamo importando i vertici
   vector<Vertex> verticesList = {};

@@ -27,7 +27,7 @@ namespace RefineLibrary
               vector<Edge>& edgesList,
               unsigned int& counter,
               vector<Vertex>& newVertices,
-              vector<Edge>& newEdges);
+              vector<unsigned int>& newEdges);
 }
 
 #endif // __REFINE_H

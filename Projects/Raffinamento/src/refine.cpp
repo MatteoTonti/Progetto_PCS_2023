@@ -2,7 +2,7 @@
 
 namespace RefineLibrary
 {
-    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<Vertex>& newVertices, vector<Edge> &newEdges)
+    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<Vertex>& newVertices, vector<unsigned int> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
       unsigned int toBisect = triangle._longestEdge;
@@ -38,12 +38,12 @@ namespace RefineLibrary
       // Lato bisezionato 1
       v0 = {&verticesList[edgesList[toBisect]._vertices[0]], &newVertex};
       Edge newEdge2 = Edge(++newE, v0);
-      newEdges.push_back(newEdge2);
+      newEdges.push_back(newEdge2._id);
       edgesList.push_back(newEdge2);
       // Lato bisezionato 2
       v0 = {&verticesList[edgesList[toBisect]._vertices[1]], &newVertex};
       Edge newEdge3 = Edge(++newE, v0);
-      newEdges.push_back(newEdge3);
+      newEdges.push_back(newEdge3._id);
       edgesList.push_back(newEdge3);
 
       // Spegniamo il triangolo che è stato raffinato
@@ -65,7 +65,7 @@ namespace RefineLibrary
             break;
           }
       }
-      vector<Edge*> e1 = {&edgesList[et1], &newEdge1, &newEdge2};
+      vector<Edge*> e1 = {&edgesList[et1], &edgesList[newEdge1._id], &edgesList[newEdge2._id]}; // Così perchè altrimenti non aggiorna le adiacenze in edgesList
 
       // Secondo lato non bisezionato
       unsigned int et2 = 0; // Qua ho messo null per togliere un warning, potrebbe andare bene?
@@ -78,7 +78,7 @@ namespace RefineLibrary
             break;
           }
       }
-      vector<Edge*> e2 = {&edgesList[et2], &newEdge1, &newEdge3};
+      vector<Edge*> e2 = {&edgesList[et2], &edgesList[newEdge1._id], &edgesList[newEdge3._id]};
 
       // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza
       unsigned int indT = trianglesList.size();
@@ -133,32 +133,29 @@ namespace RefineLibrary
               Edge* ed3 = nullptr;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((newEdges[i]._vertices[0] == opposite && newEdges[i]._vertices[1] == prec->_id) || (newEdges[i]._vertices[1] == opposite && newEdges[i]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed3 = &newEdges[i];
+                  ed3 = &edgesList[newEdges[i]];
                   break;
                 }
               }
-              vector<Edge*> et3 = {&newConnection, &newEdge1, ed3}; // Vettore edges di T3
+              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], ed3}; // Vettore edges di T3
 
               Edge* ed4 = nullptr;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((newEdges[i]._vertices[0] == last && newEdges[i]._vertices[1] == prec->_id) || (newEdges[i]._vertices[1] == last && newEdges[i]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed4 = &newEdges[i];
+                  ed4 = &edgesList[newEdges[i]];
                   break;
                 }
               }
-              vector<Edge*> et4 = {&newConnection, &newEdge2, ed4}; // Vettore edges di T4
+              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge2._id], ed4}; // Vettore edges di T4
 
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
 
               trianglesList[newT1._id]._status = false; // Si spegne il triangolo bisezionato
-
-              trianglesList.push_back(newT3);
-              trianglesList.push_back(newT4);
           }
 
           else
@@ -178,37 +175,34 @@ namespace RefineLibrary
               Edge* ed3 = nullptr; // Qua metto una versione di trovare il lato con gli id per avere un confronto di leggibilità
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((newEdges[i]._vertices[0] == opposite && newEdges[i]._vertices[1] == prec->_id) || (newEdges[i]._vertices[1] == opposite && newEdges[i]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed3 = &newEdges[i];
+                  ed3 = &edgesList[newEdges[i]];
                   break;
                 }
               }
-              vector<Edge*> et3 = {&newConnection, &newEdge1, ed3};
+              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], ed3};
 
               Edge* ed4 = nullptr;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((newEdges[i]._vertices[0] == last && newEdges[i]._vertices[1] == prec->_id) || (newEdges[i]._vertices[1] == last && newEdges[i]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed4 = &newEdges[i];
+                  ed4 = &edgesList[newEdges[i]];
                   break;
                 }
               }
-              vector<Edge*> et4 = {&newConnection, &newEdge3, ed4};
+              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge3._id], ed4};
 
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
 
-              trianglesList[newT2._id]._status = false;
-
-              trianglesList.push_back(newT3);
-              trianglesList.push_back(newT4);
+              trianglesList[newT2._id]._status = false;  
           }
+          trianglesList.push_back(newT3);
+          trianglesList.push_back(newT4);
       }
       counter++;
-
-
 
       // Se il lato più lungo del triangolo adiacente coincide con quello del triangolo di partenza congiungiamo il vertice opposto dell'adiacente
       // al nuovo vertice e creiamo i nuovi triangoli ottenuti dividendo il triangolo adiacente con lo stesso algoritmo di cui sopra
@@ -229,7 +223,7 @@ namespace RefineLibrary
         // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
         //unsigned int adjacent = 0;
         //for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
-        {
+        /*{
           if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
           {
             adjacent = edgesList[toBisect]._edgeOfTriangles[i];
@@ -265,7 +259,7 @@ namespace RefineLibrary
                     break;
                   }
               }
-              vector<Edge*> e3 = {et5, &newEdge4, &newEdge2};
+              vector<Edge*> e3 = {et5, &edgesList[newEdge4._id], &edgesList[newEdge2._id]};
 
               Triangle newT5 = Triangle(++indT, v5, e3);
               trianglesList.push_back(newT5);
@@ -281,17 +275,13 @@ namespace RefineLibrary
                   }
               }
 
-              vector<Edge*> e4 = {et6, &newEdge4, &newEdge3};
+              vector<Edge*> e4 = {et6, &edgesList[newEdge4._id], &edgesList[newEdge3._id]};
 
 
               Triangle newT6 = Triangle(++indT, v6, e4);
               trianglesList.push_back(newT6);
 
               trianglesList[adjacent]._status = false;
-
-
-
-
           }
 
           else if(trianglesList[adjacent]._longestEdge != toBisect)
@@ -312,7 +302,7 @@ namespace RefineLibrary
       unsigned int counter1 = 0;
 
       vector<Vertex> newVertices; // Qua mettiamo tutti i vertici nuovi
-      vector<Edge> newEdges; // Qua mettiamo solo i lati che sono frutto di una bisezione di un lato
+      vector<unsigned int> newEdges; // Qua mettiamo solo i lati che sono frutto di una bisezione di un lato
 
       // Ripetiamo il seguente algoritmo per numToBeRefined volte, in modo da raffinare il triangolo ad area maggiore il numero di volte richiesto
       for(unsigned int i = 0; i < numToBeRefined; i++)
