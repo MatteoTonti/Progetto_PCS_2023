@@ -143,17 +143,17 @@ TEST(TestImport, TestTriangles)
 TEST(TestRefine, TestBisect)
 {
     unsigned int idv1 = 0, idv2 = 1, idv3 = 2, idv4 = 3, ide1 = 0, ide2 = 1, ide3 = 2, ide4 = 3, ide5 = 4, idt1 = 0, idt2 = 1;
-    double x1 = 2, x2 = 10, x3 = 8, x4 = 0, y1 = 2, y2 = 10, y3 = 6, y4 = 6;
+    double x1 = 2, x2 = 10, x3 = 8, x4 = 0, y1 = 2, y2 = 6, y3 = 10, y4 = 6;
 
     Vertex v1 = Vertex(idv1, x1, y1), v2 = Vertex(idv2, x2, y2), v3 = Vertex(idv3, x3, y3), v4 = Vertex(idv4, x4, y4);
     vector<Vertex> verticesList = {v1, v2, v3, v4};
 
-    vector<Vertex*> ve1 = {&v1, &v2}, ve2 = {&v2, &v3}, ve3 = {&v3, &v1}, ve4 = {&v1, &v4}, ve5 = {&v4, &v3};
+    vector<Vertex*> ve1 = {&verticesList[v1._id], &verticesList[v2._id]}, ve2 = {&verticesList[v2._id], &verticesList[v3._id]}, ve3 = {&verticesList[v3._id], &verticesList[v1._id]}, ve4 = {&verticesList[v1._id], &verticesList[v4._id]}, ve5 = {&verticesList[v4._id], &verticesList[v3._id]};
     Edge e1 = Edge(ide1, ve1), e2 = Edge(ide2, ve2), e3 = Edge(ide3, ve3), e4 = Edge(ide4, ve4), e5 = Edge(ide5, ve5);
     vector<Edge> edgesList = {e1, e2, e3, e4, e5};
 
-    vector<Vertex*> vt1 = {&v1, &v2, &v3}, vt2 = {&v3, &v1, &v4};
-    vector<Edge*> et1 = {&e1, &e2, &e3}, et2 = {&e3, &e4, &e5};
+    vector<Vertex*> vt1 = {&verticesList[v1._id], &verticesList[v2._id], &verticesList[v3._id]}, vt2 = {&verticesList[v3._id], &verticesList[v1._id], &verticesList[v4._id]};
+    vector<Edge*> et1 = {&edgesList[e1._id], &edgesList[e2._id], &edgesList[e3._id]}, et2 = {&edgesList[e3._id], &edgesList[e4._id], &edgesList[e5._id]};
     Triangle t1 = Triangle{idt1, vt1, et1}, t2 = Triangle{idt2, vt2, et2};
     vector<Triangle> trianglesList{t1, t2};
 
@@ -162,5 +162,15 @@ TEST(TestRefine, TestBisect)
     vector<unsigned int> newEdges = {};
     Bisect(trianglesList, trianglesList[0], verticesList, edgesList, counter, newVertices, newEdges);
 
+    unsigned int idpm = 4;
+    double xm = 5, ym = 6;
+    Vertex vmedio = Vertex{idpm, xm, ym};
+
+    EXPECT_EQ(verticesList[verticesList.size()-1]._id, vmedio._id);
+    EXPECT_EQ(verticesList[verticesList.size()-1]._x, vmedio._x);
+    EXPECT_EQ(verticesList[verticesList.size()-1]._y, vmedio._y);
+    EXPECT_EQ(trianglesList[0]._status, false);
+    EXPECT_EQ(edgesList[ide3]._status, false);
+    EXPECT_EQ(trianglesList.size(), 6);
 }
 #endif // __TEST_EMPTY_H
