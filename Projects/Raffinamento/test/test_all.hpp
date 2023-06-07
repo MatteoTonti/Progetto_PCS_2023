@@ -158,8 +158,8 @@ TEST(TestRefine, TestBisect)
     vector<Triangle> trianglesList{t1, t2};
 
     unsigned int counter = 0;
-    vector<Vertex> newVertices;
-    vector<unsigned int> newEdges;
+    vector<unsigned int> newVertices = {};
+    vector<unsigned int> newEdges = {};
     Bisect(trianglesList, trianglesList[0], verticesList, edgesList, counter, newVertices, newEdges);
 
 }
