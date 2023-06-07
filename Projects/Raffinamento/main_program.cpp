@@ -16,17 +16,17 @@ int main(int argc, char** argv)
     cerr<<"At least 4 arguments have to be passed"<<endl;
     return -1;
   }
-
+  //Percentuale dei triangoli da raffinare
   double percentage;
   istringstream converter;
   converter.str(argv[1]);
   converter >> percentage;
 
-  /*if(percentage > 100 || percentage < 0)
+  if(percentage > 100 || percentage < 0)
   {
     cerr<<"The percentage has to be a number between 0 and 100"<<endl;
     return -1;
-  }*/
+  }
 
 
   // Iniziamo importando i vertici
@@ -72,9 +72,6 @@ int main(int argc, char** argv)
     return 1;
   }
 
-  Empty empty;
-
-  empty.Show();
 
   return 0;
 }
