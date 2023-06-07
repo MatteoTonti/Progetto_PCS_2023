@@ -14,7 +14,7 @@ using namespace SortingLibrary;
 using namespace ImportLibrary;
 using namespace RefineLibrary;
 
-TEST(TestVertex, TestConstructor)
+TEST(TestConstructors, TestVertex)
 {
   unsigned int id = 5;
   double x = 23.8;
@@ -25,7 +25,7 @@ TEST(TestVertex, TestConstructor)
   EXPECT_EQ(v._y, 3.14159);
 }
 
-TEST(TestEdge, TestComputeLength)
+TEST(TestConstructors, TestEdge)
 {
   unsigned int id = 9;
 
@@ -47,7 +47,7 @@ TEST(TestEdge, TestComputeLength)
   EXPECT_EQ(e._length, 19);
 }
 
-TEST(TestTriangle, TestAreaAndLongestEdge)
+TEST(TestConstructors, TestTriangle)
 {
   unsigned int id = 651, id1 = 4, id2 = 9595, id3 = 6581, eid1 = 489, eid2 = 1, eid3 = 8;
 
@@ -86,7 +86,15 @@ TEST(TestSorting, TestHeapSort)
     EXPECT_EQ(heapSorted, sortedV);
 }
 
-TEST(TestImport1, TestVertices)
+TEST(TestSorting, TestInsertion)
+{
+    vector<int> v = {44, 26, 12, 2, 16, 7, 9, 23, 5, 98, 32, 48};
+    vector<int> insertionSorted = InsertionSort(v);
+    vector<int> sortedV = {98, 48, 44, 32, 26, 23, 16, 12, 9, 7, 5, 2};
+    EXPECT_EQ(insertionSorted, sortedV);
+}
+
+TEST(TestImport, TestVertices)
 {
   vector<Vertex> verticesList;
   string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
@@ -98,7 +106,7 @@ TEST(TestImport1, TestVertices)
   }
 }
 
-TEST(TestImport2, TestVertices)
+TEST(TestImport, TestEdges)
 {
   vector<Vertex> verticesList;
   string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
@@ -113,7 +121,7 @@ TEST(TestImport2, TestVertices)
   }
 }
 
-TEST(TestImport3, TestTriangles)
+TEST(TestImport, TestTriangles)
 {
   vector<Vertex> verticesList;
   string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
@@ -130,5 +138,29 @@ TEST(TestImport3, TestTriangles)
     EXPECT_EQ(trianglesList[0]._longestEdge, 4);
     EXPECT_EQ(trianglesList[1]._area, 0.5);
   }
+}
+
+TEST(TestRefine, TestBisect)
+{
+    unsigned int idv1 = 0, idv2 = 1, idv3 = 2, idv4 = 3, ide1 = 0, ide2 = 1, ide3 = 2, ide4 = 3, ide5 = 4, idt1 = 0, idt2 = 1;
+    double x1 = 2, x2 = 10, x3 = 8, x4 = 0, y1 = 2, y2 = 10, y3 = 6, y4 = 6;
+
+    Vertex v1 = Vertex(idv1, x1, y1), v2 = Vertex(idv2, x2, y2), v3 = Vertex(idv3, x3, y3), v4 = Vertex(idv4, x4, y4);
+    vector<Vertex> verticesList = {v1, v2, v3, v4};
+
+    vector<Vertex*> ve1 = {&v1, &v2}, ve2 = {&v2, &v3}, ve3 = {&v3, &v1}, ve4 = {&v1, &v4}, ve5 = {&v4, &v3};
+    Edge e1 = Edge(ide1, ve1), e2 = Edge(ide2, ve2), e3 = Edge(ide3, ve3), e4 = Edge(ide4, ve4), e5 = Edge(ide5, ve5);
+    vector<Edge> edgesList = {e1, e2, e3, e4, e5};
+
+    vector<Vertex*> vt1 = {&v1, &v2, &v3}, vt2 = {&v3, &v1, &v4};
+    vector<Edge*> et1 = {&e1, &e2, &e3}, et2 = {&e3, &e4, &e5};
+    Triangle t1 = Triangle{idt1, vt1, et1}, t2 = Triangle{idt2, vt2, et2};
+    vector<Triangle> trianglesList{t1, t2};
+
+    unsigned int counter = 0;
+    vector<Vertex> newVertices;
+    vector<unsigned int> newEdges;
+    Bisect(trianglesList, trianglesList[0], verticesList, edgesList, counter, newVertices, newEdges);
+
 }
 #endif // __TEST_EMPTY_H

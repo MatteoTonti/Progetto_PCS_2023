@@ -130,27 +130,27 @@ namespace RefineLibrary
               vector<Vertex*> vT4 = {&newVertex, prec, &verticesList[last]}; // Abbiamo così creato i vettori di vertici dei due triangoli
 
               // Troviamo i lati ed3, che va messo in T3 e ed4, che va messo in T4
-              Edge* ed3 = nullptr;
+              unsigned int ed3 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed3 = &edgesList[newEdges[i]];
+                  ed3 = newEdges[i];
                   break;
                 }
               }
-              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], ed3}; // Vettore edges di T3
+              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], &edgesList[ed3]}; // Vettore edges di T3
 
-              Edge* ed4 = nullptr;
+              unsigned int ed4 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed4 = &edgesList[newEdges[i]];
+                  ed4 = newEdges[i];
                   break;
                 }
               }
-              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge2._id], ed4}; // Vettore edges di T4
+              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge2._id], &edgesList[ed4]}; // Vettore edges di T4
 
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
@@ -172,27 +172,27 @@ namespace RefineLibrary
               }
               vector<Vertex*> vT4 = {&newVertex, prec, &verticesList[last]};
 
-              Edge* ed3 = nullptr; // Qua metto una versione di trovare il lato con gli id per avere un confronto di leggibilità
+              unsigned int ed3 = 0; // Qua metto una versione di trovare il lato con gli id per avere un confronto di leggibilità
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed3 = &edgesList[newEdges[i]];
+                  ed3 = newEdges[i];
                   break;
                 }
               }
-              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], ed3};
+              vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], &edgesList[ed3]};
 
-              Edge* ed4 = nullptr;
+              unsigned int ed4 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
                 {
-                  ed4 = &edgesList[newEdges[i]];
+                  ed4 = newEdges[i];
                   break;
                 }
               }
-              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge3._id], ed4};
+              vector<Edge*> et4 = {&edgesList[newConnection._id], &edgesList[newEdge3._id], &edgesList[ed4]};
 
               newT3 = Triangle(++indT, vT3, et3);
               newT4 = Triangle(++indT, vT4, et4);
@@ -238,33 +238,33 @@ namespace RefineLibrary
 
             vector<Vertex*> v6 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]}; // Vettore per T6
 
-            Edge* et5 = nullptr; //Troviamo il lato del triangolo adiacente che appartiene a T5, che è il triangolo con il vertice 0
+            unsigned int et5 = 0; //Troviamo il lato del triangolo adiacente che appartiene a T5, che è il triangolo con il vertice 0
             for(unsigned int i = 0; i < 3; i++)
             {
                   if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
                           && trianglesList[adjacent]._edges[i] != toBisect)
                   {
-                    et5 = &edgesList[trianglesList[adjacent]._edges[i]];
+                    et5 = trianglesList[adjacent]._edges[i];
                     break;
                   }
               }
-              vector<Edge*> e3 = {et5, &edgesList[newEdge4._id], &edgesList[newEdge2._id]};
+              vector<Edge*> e3 = {&edgesList[et5], &edgesList[newEdge4._id], &edgesList[newEdge2._id]};
 
               Triangle newT5 = Triangle(++indT, v5, e3);
               trianglesList.push_back(newT5);
 
-              Edge* et6 = nullptr; //Troviamo il lato del triangolo adiacente che appartiene a T6, che è il triangolo con il vertice 1
+              unsigned int et6 = 0; //Troviamo il lato del triangolo adiacente che appartiene a T6, che è il triangolo con il vertice 1
               for(unsigned int i = 0; i < 3; i++)
               {
                   if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
                           && trianglesList[adjacent]._edges[i] != toBisect)
                   {
-                    et6 = &edgesList[trianglesList[adjacent]._edges[i]];
+                    et6 = trianglesList[adjacent]._edges[i];
                     break;
                   }
               }
 
-              vector<Edge*> e4 = {et6, &edgesList[newEdge4._id], &edgesList[newEdge3._id]};
+              vector<Edge*> e4 = {&edgesList[et6], &edgesList[newEdge4._id], &edgesList[newEdge3._id]};
 
 
               Triangle newT6 = Triangle(++indT, v6, e4);
