@@ -12,6 +12,7 @@ namespace GeometryLibrary
   Edge::Edge(unsigned int& id, vector<Vertex *> &vertices)
   {
     _id = id;
+    _status = true;
     for(unsigned int i = 0; i < 2; i++)
     {
         _vertices.push_back(vertices[i]->_id);

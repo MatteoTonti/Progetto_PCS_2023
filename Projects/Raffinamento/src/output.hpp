@@ -7,11 +7,12 @@ using namespace GeometryLibrary;
 
 namespace OutputLibrary
 {
-  bool ExportVertices(const string& outputFile,
-                      vector<Vertex>& verticesList);
+  bool ExportVertices(vector<Vertex>& verticesList);
 
-  bool ExportTriangles(const string& outputFile,
-                       vector<Triangle>& trianglesList);
+  bool ExportEdges(vector<Edge>& edgesList,
+                   vector<Vertex>& verticesList);
+
+  bool ExportTriangles(vector<Triangle>& trianglesList);
 }
 
 #endif // __OUTPUT_H

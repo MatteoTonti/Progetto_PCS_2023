@@ -26,7 +26,7 @@ namespace RefineLibrary
         }
       }
 
-
+      edgesList[toBisect]._status = false;
 
       // Creiamo i nuovi lati dati dal nuovo vertice(punto medio) collegandolo ai vertici del triangolo di partenza
       unsigned int newE = edgesList.size();
@@ -220,17 +220,6 @@ namespace RefineLibrary
 
       if(numberActive == 1)
       {
-        // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
-        //unsigned int adjacent = 0;
-        //for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
-        /*{
-          if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
-          {
-            adjacent = edgesList[toBisect]._edgeOfTriangles[i];
-            break;
-          }
-        }
-        */
         if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
         {
             unsigned int contr = 0; // Id del vertice opposto

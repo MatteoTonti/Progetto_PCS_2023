@@ -45,6 +45,7 @@ namespace GeometryLibrary
       double _length;
       vector<unsigned int> _vertices;
       vector<unsigned int> _edgeOfTriangles;
+      bool _status;
 
       Edge() = default;
       Edge(unsigned int& id,

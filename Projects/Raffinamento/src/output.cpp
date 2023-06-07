@@ -1,10 +1,11 @@
 #include "output.hpp"
 
 namespace OutputLibrary{
-    bool ExportVertices(const string& outputFile, vector<Vertex>& verticesList)
+    bool ExportVertices(vector<Vertex>& verticesList)
     {
       // Iniziamo aprendo il file
       ofstream file;
+      string outputFile = "refVertices.csv";
       file.open(outputFile);
 
       if(file.fail())
@@ -24,10 +25,36 @@ namespace OutputLibrary{
       return true;
     }
 
-    bool ExportTriangles(const string& outputFile, vector<Triangle>& trianglesList)
+    bool ExportEdges(vector<Edge>& edgesList, vector<Vertex>& verticesList)
+    {
+        // Apertura file
+        ofstream file;
+        string outputFile = "refEdges.csv";
+        file.open(outputFile);
+
+        if(file.fail())
+        {
+          cerr<<"Could not open the refined edges file"<<endl;
+          return false;
+        }
+
+        file<<"Id x1 y1 x2 y2"<<endl;
+
+        for(unsigned int i = 0; i < edgesList.size(); i++)
+        {
+          if(edgesList[i]._status)
+            file<<edgesList[i]._id<<' '<<verticesList[edgesList[i]._vertices[0]]._x << ' ' <<verticesList[edgesList[i]._vertices[0]]._y<<' '<<verticesList[edgesList[i]._vertices[1]]._x<<' '<<verticesList[edgesList[i]._vertices[1]]._y<<endl;
+        }
+        file.close();
+
+        return true;
+    }
+
+    bool ExportTriangles(vector<Triangle>& trianglesList)
     {
       // Apertura file
         ofstream file;
+        string outputFile = "refTriangles.csv";
         file.open(outputFile);
 
         if(file.fail())
