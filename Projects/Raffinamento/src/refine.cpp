@@ -2,7 +2,7 @@
 
 namespace RefineLibrary
 {
-    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<Vertex>& newVertices, vector<unsigned int> &newEdges)
+    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<unsigned int> &newVertices, vector<unsigned int> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
       unsigned int toBisect = triangle._longestEdge;
@@ -13,7 +13,7 @@ namespace RefineLibrary
       unsigned int newIndex = verticesList.size();
       Vertex newVertex = Vertex(newIndex, xm, ym);
       verticesList.push_back(newVertex);
-      newVertices.push_back(newVertex);
+      newVertices.push_back(newVertex._id);
 
       // Troviamo il vertice opposto al lato più lungo
       unsigned int opposite = 0;
@@ -92,24 +92,24 @@ namespace RefineLibrary
           Triangle newT3;
           Triangle newT4;
 
-          // Troviamo il vertice della bisezione precedente per connettere i due vertici e creare il nuovo lato
-          Vertex *prec = &newVertices[newVertices.size() - 2];
-          vector<Vertex*> v3 = {&newVertex, prec};
+          // Troviamo il vertice della bisezione  edente per connettere i due vertici e creare il nuovo lato
+          Vertex prec = verticesList[newVertices[newVertices.size() - 2]];
+          vector<Vertex*> v3 = {&newVertex, &prec};
 
           Edge newConnection = Edge(++newE, v3);
           edgesList.push_back(newConnection);
 
           /*/Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2: lla positività dell'area me lo dice A new B opp C prec
           double areaT1 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y) + verticesList[opposite]._x * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) + verticesList[edgesList[toBisect]._vertices[0]]._x * (newVertex._y - verticesList[opposite]._y));
-          double areaT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - prec->_y) + verticesList[opposite]._x * (prec->_y - newVertex._y) + prec->_x * (newVertex._y - verticesList[opposite]._y));
+          double areaT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - prec._y) + verticesList[opposite]._x * (prec._y - newVertex._y) + prec._x * (newVertex._y - verticesList[opposite]._y));
            */
           //u =opposite - tobisect[0]
           //v = prec - tobisect[0]
           double x_u = verticesList[opposite]._x - verticesList[edgesList[toBisect]._vertices[0]]._x;
           double y_u = verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y;
 
-          double x_v = prec->_x - verticesList[edgesList[toBisect]._vertices[0]]._x;
-          double y_v = prec->_y - verticesList[edgesList[toBisect]._vertices[0]]._y;
+          double x_v = prec._x - verticesList[edgesList[toBisect]._vertices[0]]._x;
+          double y_v = prec._y - verticesList[edgesList[toBisect]._vertices[0]]._y;
 
           double prodvett = x_u * y_v - y_u * x_v;
 
@@ -117,7 +117,7 @@ namespace RefineLibrary
           // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
           if(abs(prodvett) < GeometryLibrary :: geometricTol)
           {
-              vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]};
+              vector<Vertex*> vT3 = {&newVertex, &prec, &verticesList[opposite]};
               unsigned int last = 0; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
               for(unsigned int i = 0; i < 3; i++)
               {
@@ -127,13 +127,13 @@ namespace RefineLibrary
                     break;
                 }
               }
-              vector<Vertex*> vT4 = {&newVertex, prec, &verticesList[last]}; // Abbiamo così creato i vettori di vertici dei due triangoli
+              vector<Vertex*> vT4 = {&newVertex, &prec, &verticesList[last]}; // Abbiamo così creato i vettori di vertici dei due triangoli
 
               // Troviamo i lati ed3, che va messo in T3 e ed4, che va messo in T4
               unsigned int ed3 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec._id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec._id))
                 {
                   ed3 = newEdges[i];
                   break;
@@ -144,7 +144,7 @@ namespace RefineLibrary
               unsigned int ed4 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec._id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec._id))
                 {
                   ed4 = newEdges[i];
                   break;
@@ -160,7 +160,7 @@ namespace RefineLibrary
 
           else
           {
-              vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]}; // Vettore di vertici per t3
+              vector<Vertex*> vT3 = {&newVertex, &prec, &verticesList[opposite]}; // Vettore di vertici per t3
               unsigned int last = 0;
               for(unsigned int i = 0; i < 3; i++)
               {
@@ -170,12 +170,12 @@ namespace RefineLibrary
                     break;
                 }
               }
-              vector<Vertex*> vT4 = {&newVertex, prec, &verticesList[last]};
+              vector<Vertex*> vT4 = {&newVertex, &prec, &verticesList[last]};
 
               unsigned int ed3 = 0; // Qua metto una versione di trovare il lato con gli id per avere un confronto di leggibilità
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec._id) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec._id))
                 {
                   ed3 = newEdges[i];
                   break;
@@ -186,7 +186,7 @@ namespace RefineLibrary
               unsigned int ed4 = 0;
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
-                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec->_id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec->_id))
+                if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec._id) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec._id))
                 {
                   ed4 = newEdges[i];
                   break;
@@ -290,7 +290,7 @@ namespace RefineLibrary
       unsigned int counter = 0;
       unsigned int counter1 = 0;
 
-      vector<Vertex> newVertices; // Qua mettiamo tutti i vertici nuovi
+      vector<unsigned int> newVertices; // Qua mettiamo tutti i vertici nuovi
       vector<unsigned int> newEdges; // Qua mettiamo solo i lati che sono frutto di una bisezione di un lato
 
       // Ripetiamo il seguente algoritmo per numToBeRefined volte, in modo da raffinare il triangolo ad area maggiore il numero di volte richiesto
