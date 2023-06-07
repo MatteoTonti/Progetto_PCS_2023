@@ -99,12 +99,23 @@ namespace RefineLibrary
           Edge newConnection = Edge(++newE, v3);
           edgesList.push_back(newConnection);
 
-          //Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2: lla positività dell'area me lo dice A new B opp C prec
+          /*/Calcoliamo le aree con segno di T1 e T3 per vedere se T3 è parte di T1 o T2: lla positività dell'area me lo dice A new B opp C prec
           double areaT1 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y) + verticesList[opposite]._x * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) + verticesList[edgesList[toBisect]._vertices[0]]._x * (newVertex._y - verticesList[opposite]._y));
           double areaT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - prec->_y) + verticesList[opposite]._x * (prec->_y - newVertex._y) + prec->_x * (newVertex._y - verticesList[opposite]._y));
+           */
+          //u =opposite - tobisect[0]
+          //v = prec - tobisect[0]
+          double x_u = verticesList[opposite]._x - verticesList[edgesList[toBisect]._vertices[0]]._x;
+          double y_u = verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y;
+
+          double x_v = prec->_x - verticesList[edgesList[toBisect]._vertices[0]]._x;
+          double y_v = prec->_y - verticesList[edgesList[toBisect]._vertices[0]]._y;
+
+          double prodvett = x_u * y_v - y_u * x_v;
+
 
           // Se T1 e T3 sono dello stesso segno T1 si splitta in T3 e T4
-          if(areaT1 * areaT3 > 0) /// QUALCOSA DI SBAGLIATO!!!
+          if(abs(prodvett) < GeometryLibrary :: geometricTol)
           {
               vector<Vertex*> vT3 = {&newVertex, prec, &verticesList[opposite]};
               unsigned int last = 0; // Troviamo l'ultimo vertice di T1 che non è opposite nè il nuovo vertice(versione con l'id)
@@ -202,17 +213,22 @@ namespace RefineLibrary
       // Se il lato più lungo del triangolo adiacente coincide con quello del triangolo di partenza congiungiamo il vertice opposto dell'adiacente
       // al nuovo vertice e creiamo i nuovi triangoli ottenuti dividendo il triangolo adiacente con lo stesso algoritmo di cui sopra
       unsigned int numberActive = 0; // Numero di triangoli a cui è adiacente toBisect
+      unsigned int adjacent = 0;
       for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
       {
         if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
+        {
             numberActive++;
+            adjacent = edgesList[toBisect]._edgeOfTriangles[i];
+            break;
+        }
       }
 
       if(numberActive == 1)
       {
         // Troviamo il triangolo adiacente a cui riapplicare il bisezionamento del lato più lungo
-        unsigned int adjacent = 0;
-        for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
+        //unsigned int adjacent = 0;
+        //for(unsigned int i = 0; i < edgesList[toBisect]._edgeOfTriangles.size(); i++)
         {
           if(trianglesList[edgesList[toBisect]._edgeOfTriangles[i]]._status)
           {
@@ -220,6 +236,7 @@ namespace RefineLibrary
             break;
           }
         }
+        */
         if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
         {
             unsigned int contr = 0; // Id del vertice opposto
@@ -250,6 +267,9 @@ namespace RefineLibrary
               }
               vector<Edge*> e3 = {et5, &newEdge4, &newEdge2};
 
+              Triangle newT5 = Triangle(++indT, v5, e3);
+              trianglesList.push_back(newT5);
+
               Edge* et6 = nullptr; //Troviamo il lato del triangolo adiacente che appartiene a T6, che è il triangolo con il vertice 1
               for(unsigned int i = 0; i < 3; i++)
               {
@@ -260,15 +280,17 @@ namespace RefineLibrary
                     break;
                   }
               }
+
               vector<Edge*> e4 = {et6, &newEdge4, &newEdge3};
 
-              Triangle newT5 = Triangle(++indT, v5, e3);
+
               Triangle newT6 = Triangle(++indT, v6, e4);
+              trianglesList.push_back(newT6);
 
               trianglesList[adjacent]._status = false;
 
-              trianglesList.push_back(newT5);
-              trianglesList.push_back(newT6);
+
+
 
           }
 
@@ -287,6 +309,7 @@ namespace RefineLibrary
       unsigned int numToBeRefined = (trianglesList.size() *percentage)/100;
 
       unsigned int counter = 0;
+      unsigned int counter1 = 0;
 
       vector<Vertex> newVertices; // Qua mettiamo tutti i vertici nuovi
       vector<Edge> newEdges; // Qua mettiamo solo i lati che sono frutto di una bisezione di un lato
@@ -303,9 +326,14 @@ namespace RefineLibrary
 
         // Biseziono il triangolo
         Bisect(trianglesList, sortedTriangles[j], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
-        sortedTriangles = HeapSort(trianglesList);
+        if (counter1 == 0)
+        {sortedTriangles = HeapSort(trianglesList);
+        ++counter1;}
+        else
+        sortedTriangles = InsertionSort(trianglesList);
+
         newEdges = {};
         counter = 0;
       }
-    } 
+    }
 }
