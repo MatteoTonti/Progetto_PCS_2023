@@ -13,8 +13,8 @@ namespace OutputLibrary{
         cerr<<"Could not open the refined vertices file"<<endl;
         return false;
       }
-
-      file<<"Id X Y"<<endl; // Struttura dell'output file
+      // Struttura dell'output file : una colonna contenente gli id, una le coordinate x e una le coordinate y dei vertici
+      file<<"Id X Y"<<endl;
 
       for(unsigned int i = 0; i < verticesList.size();i++)
       {
@@ -37,7 +37,8 @@ namespace OutputLibrary{
           cerr<<"Could not open the refined edges file"<<endl;
           return false;
         }
-
+        // Struttura dell'output file : una colonna contenente gli id dei lati, una le coordinate x e una le coordinate y dei vertici di orgine
+        //e una con le coordinate x e le coordinate y dei vertici di fine
         file<<"Id x1 y1 x2 y2"<<endl;
 
         for(unsigned int i = 0; i < edgesList.size(); i++)
@@ -62,7 +63,7 @@ namespace OutputLibrary{
           cerr<<"Could not open the refined triangles file"<<endl;
           return false;
         }
-
+        // Struttura dell'output file : una colonna contenente gli id dei triangoli e tre colonne contenenti gli id dei vertici di ognuno
         file<<"Id V1 V2 V3"<<endl;
 
         for(unsigned int i = 0; i<trianglesList.size(); i++)

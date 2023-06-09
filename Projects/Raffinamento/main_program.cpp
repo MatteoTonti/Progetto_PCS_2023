@@ -22,12 +22,6 @@ int main(int argc, char** argv)
   converter.str(argv[1]);
   converter >> percentage;
 
-  if(percentage > 100 || percentage < 0)
-  {
-    cerr<<"The percentage has to be a number between 0 and 100"<<endl;
-    return -1;
-  }
-
 
   // Iniziamo importando i vertici
   vector<Vertex> verticesList = {};

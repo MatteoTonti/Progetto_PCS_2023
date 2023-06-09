@@ -82,7 +82,7 @@ namespace ImportLibrary
         }
 
         edgesList.reserve(numberEdges);
-
+        // Per ogni linea creiamo un nuovo oggetto di tipo Edge e man mano inseriamo i nuovi oggetti in coda al vettore
         for (const string& line : listLines)
         {
           istringstream converter(line);
@@ -145,7 +145,7 @@ namespace ImportLibrary
         }
 
         trianglesList.reserve(numTriangles);
-
+        // Per ogni linea creiamo un nuovo oggetto di tipo Triangle e man mano inseriamo i nuovi oggetti in coda al vettore
         for (const string& line : listLines)
         {
           istringstream converter(line);
