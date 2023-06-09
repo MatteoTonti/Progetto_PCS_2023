@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/matte/Desktop/Progetto_PCS/Projects/Release/raffinamento_test[1]_tests.cmake")
+  include("C:/Users/matte/Desktop/Progetto_PCS/Projects/Release/raffinamento_test[1]_tests.cmake")
+else()
+  add_test(raffinamento_test_NOT_BUILT raffinamento_test_NOT_BUILT)
+endif()
