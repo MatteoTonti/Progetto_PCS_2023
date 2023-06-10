@@ -57,7 +57,7 @@ namespace RefineLibrary
       vector<Vertex*> vt2 = {&verticesList[opposite], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]};
 
       //Cerchiamo i lati non bisezionati del triangolo che abbiamo raffinato
-      unsigned int oldEdge1 = -1;  //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+      unsigned int oldEdge1 = -1;  //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
       for(unsigned int i = 0; i < 3; i++)
       {
           if((edgesList[triangle._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[triangle._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
@@ -72,7 +72,7 @@ namespace RefineLibrary
       vector<Edge*> et1 = {&edgesList[oldEdge1], &edgesList[newEdge1._id], &edgesList[newEdge2._id]}; // Così perchè altrimenti non aggiorna le adiacenze in edgesList
 
       // Secondo lato non bisezionato
-      unsigned int oldEdge2 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+      unsigned int oldEdge2 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
       for(unsigned int i = 0; i < 3; i++)
       {
           if((edgesList[triangle._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1]|| edgesList[triangle._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
@@ -143,7 +143,7 @@ namespace RefineLibrary
               vector<Vertex*> vT4 = {&newVertex, &verticesList[prec], &verticesList[last]}; // Abbiamo così creato i vettori di vertici dei due triangoli
 
               // Troviamo i lati oldEdge3 (lati di newT3) e oldEdge4 (lati di newT4)
-              unsigned int oldEdge3 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+              unsigned int oldEdge3 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec))
@@ -156,7 +156,7 @@ namespace RefineLibrary
               //Lati di newT3
               vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], &edgesList[oldEdge3]}; // Vettore edges di T3
 
-              unsigned int oldEdge4 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+              unsigned int oldEdge4 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec))
@@ -192,7 +192,7 @@ namespace RefineLibrary
               }
               vector<Vertex*> vt4 = {&newVertex, &verticesList[prec], &verticesList[last]};
 
-              unsigned int oldEdge3 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+              unsigned int oldEdge3 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == opposite && edgesList[newEdges[i]]._vertices[1] == prec) || (edgesList[newEdges[i]]._vertices[1] == opposite && edgesList[newEdges[i]]._vertices[0] == prec))
@@ -203,7 +203,7 @@ namespace RefineLibrary
               }
               vector<Edge*> et3 = {&edgesList[newConnection._id], &edgesList[newEdge1._id], &edgesList[oldEdge3]};
 
-              unsigned int oldEdge4 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+              unsigned int oldEdge4 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
               for(unsigned int i = 0; i<newEdges.size(); i++)
               {
                 if((edgesList[newEdges[i]]._vertices[0] == last && edgesList[newEdges[i]]._vertices[1] == prec) || (edgesList[newEdges[i]]._vertices[1] == last && edgesList[newEdges[i]]._vertices[0] == prec))
@@ -243,7 +243,7 @@ namespace RefineLibrary
       {
         if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
 
-            //Caso in cui i due triangoli hanno stesso longestEdge : devo collegare al punto medio (newVetrex) con il vertice opposto nel triangolo adiacente
+            //Caso in cui i due triangoli hanno stesso longestEdge : devo collegare al punto medio (newVertex) con il vertice opposto nel triangolo adiacente
         {
             unsigned int contr = -1; // Id del vertice opposto inizializzato a un valore non corrispondente a nessun vertice
             Edge newEdge4;
@@ -265,7 +265,7 @@ namespace RefineLibrary
             vector<Vertex*> vt6 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]};
 
             //Troviamo il lato del triangolo adiacente che appartiene a T5, che è il triangolo con il vertice 0
-            unsigned int oldEdge5 = -1; //Nuovo lato inizializzato a un valore non corrispondente a nessun lato
+            unsigned int oldEdge5 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
             for(unsigned int i = 0; i < 3; i++)
             {
                   if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[0] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[0])
@@ -281,7 +281,7 @@ namespace RefineLibrary
               trianglesList.push_back(newT5);
 
               //Troviamo il lato del triangolo adiacente che appartiene a newT6, che è il triangolo con il vertice 1
-              unsigned int oldEdge6 = -1;
+              unsigned int oldEdge6 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
               for(unsigned int i = 0; i < 3; i++)
               {
                   if((edgesList[trianglesList[adjacent]._edges[i]]._vertices[0] == edgesList[toBisect]._vertices[1] || edgesList[trianglesList[adjacent]._edges[i]]._vertices[1] == edgesList[toBisect]._vertices[1])
@@ -309,13 +309,13 @@ namespace RefineLibrary
       }
     }
 
-
+    //Iniziamo da qui
     void Refine(vector<Triangle>& sortedTriangles, vector<Triangle>& trianglesList, const double& percentage,vector<Vertex>& verticesList, vector<Edge>& edgesList)
     {
       // Calcoliamo il numero di triangoli da raffinare
       unsigned int numToBeRefined = (trianglesList.size() *percentage)/100;
 
-      //Contatore che se = 0 ci dice che il triangolo che stiam raffinando è stato preso dalla lista dei triangoli ordinati per area;
+      //Contatore che se = 0 ci dice che il triangolo che stiamo raffinando è stato preso dalla lista dei triangoli ordinati per area;
       //se > 0 il triangolo viene raffinato come conseguenza di triangolo raffinato percedentemente in modo da mantenere la mesh ammissibile
       unsigned int counter = 0;
       vector<unsigned int> newVertices; // Qua mettiamo tutti i vertici nuovi

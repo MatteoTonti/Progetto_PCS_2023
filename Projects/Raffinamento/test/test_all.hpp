@@ -97,7 +97,7 @@ TEST(TestSorting, TestInsertion)
 TEST(TestImport, TestVertices)
 {
   vector<Vertex> verticesList;
-  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+  string verticesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/0dtry.csv";
 
   if(ImportVertices(verticesList, verticesFile))
   {
@@ -109,10 +109,10 @@ TEST(TestImport, TestVertices)
 TEST(TestImport, TestEdges)
 {
   vector<Vertex> verticesList;
-  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+  string verticesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/0dtry.csv";
 
   vector<Edge> edgesList;
-  string edgesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/1dtry.csv";
+  string edgesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/1dtry.csv";
 
   if(ImportVertices(verticesList, verticesFile) && ImportEdges(edgesList, verticesList, edgesFile))
   {
@@ -124,13 +124,13 @@ TEST(TestImport, TestEdges)
 TEST(TestImport, TestTriangles)
 {
   vector<Vertex> verticesList;
-  string verticesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/0dtry.csv";
+  string verticesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/0dtry.csv";
 
   vector<Edge> edgesList;
-  string edgesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/1dtry.csv";
+  string edgesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/1dtry.csv";
 
   vector<Triangle> trianglesList;
-  string trianglesFile = "C:/Users/matte/Desktop/Progetto_PCS/Projects/Raffinamento/Fittizi/2dtry.csv";
+  string trianglesFile = "C:/Users/auron/Progetto_PCS_2023/Projects/Raffinamento/Fittizi/2dtry.csv";
 
 
   if(ImportVertices(verticesList, verticesFile) && ImportEdges(edgesList, verticesList, edgesFile) && ImportTriangles(trianglesList, edgesList, verticesList, trianglesFile))
