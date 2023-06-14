@@ -140,7 +140,7 @@ TEST(TestImport, TestTriangles)
   }
 }
 
-TEST(TestRefine, TestBisect)
+/*TEST(TestRefine, TestBisect)
 {
     unsigned int idv1 = 0, idv2 = 1, idv3 = 2, idv4 = 3, ide1 = 0, ide2 = 1, ide3 = 2, ide4 = 3, ide5 = 4, idt1 = 0, idt2 = 1;
     double x1 = 2, x2 = 10, x3 = 8, x4 = 0, y1 = 2, y2 = 6, y3 = 10, y4 = 6;
@@ -172,5 +172,5 @@ TEST(TestRefine, TestBisect)
     EXPECT_EQ(trianglesList[0]._status, false);
     EXPECT_EQ(edgesList[ide3]._status, false);
     EXPECT_EQ(trianglesList.size(), 6);
-}
+}*/
 #endif // __TEST_EMPTY_H

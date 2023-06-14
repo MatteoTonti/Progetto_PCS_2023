@@ -75,7 +75,7 @@ namespace GeometryLibrary
                vector<Vertex*>& vertices,
                vector<Edge*>& edges); //Costruttore del triangolo
       double Area(vector<Vertex*>& vertices); //Metodo che restituisce l'area del triangolo
-      unsigned int LongestEdge(vector<Edge*>& edges); //Metodo che l'id del lato più lungo del triangolo
+      unsigned int LongestEdge(vector<Edge*>& edges); //Metodo che restituisce l'id del lato più lungo del triangolo
   };
 
   inline bool operator<(const Triangle& t1, const Triangle& t2)  //operatore di confronto tra triangoli basato sull'area
