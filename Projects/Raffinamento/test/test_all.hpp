@@ -140,7 +140,7 @@ TEST(TestImport, TestTriangles)
   }
 }
 
-/*TEST(TestRefine, TestBisect)
+TEST(TestRefine, TestBisect)
 {
     unsigned int idv1 = 0, idv2 = 1, idv3 = 2, idv4 = 3, ide1 = 0, ide2 = 1, ide3 = 2, ide4 = 3, ide5 = 4, idt1 = 0, idt2 = 1;
     double x1 = 2, x2 = 10, x3 = 8, x4 = 0, y1 = 2, y2 = 6, y3 = 10, y4 = 6;
@@ -156,11 +156,11 @@ TEST(TestImport, TestTriangles)
     vector<Edge*> et1 = {&edgesList[e1._id], &edgesList[e2._id], &edgesList[e3._id]}, et2 = {&edgesList[e3._id], &edgesList[e4._id], &edgesList[e5._id]};
     Triangle t1 = Triangle{idt1, vt1, et1}, t2 = Triangle{idt2, vt2, et2};
     vector<Triangle> trianglesList{t1, t2};
-
+    vector<Triangle> sortedTriangles{t1, t2};
     unsigned int counter = 0;
     vector<unsigned int> newVertices = {};
     vector<unsigned int> newEdges = {};
-    Bisect(trianglesList, trianglesList[0], verticesList, edgesList, counter, newVertices, newEdges);
+    Bisect(sortedTriangles,trianglesList, trianglesList[0], verticesList, edgesList, counter, newVertices, newEdges);
 
     unsigned int idpm = 4;
     double xm = 5, ym = 6;
@@ -172,5 +172,5 @@ TEST(TestImport, TestTriangles)
     EXPECT_EQ(trianglesList[0]._status, false);
     EXPECT_EQ(edgesList[ide3]._status, false);
     EXPECT_EQ(trianglesList.size(), 6);
-}*/
+}
 #endif // __TEST_EMPTY_H
