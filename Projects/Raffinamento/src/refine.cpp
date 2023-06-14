@@ -85,7 +85,7 @@ namespace RefineLibrary
       //Lati del nuovo triangolo newT2
       vector<Edge*> et2 = {&edgesList[oldEdge2], &edgesList[newEdge1._id], &edgesList[newEdge3._id]};
 
-      // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza e inseriamo nella lista dei triangoli
+      // Creiamo i nuovi triangoli ottenuti bisezionando il triangolo di partenza e inseriamo nella liste di triangoli
       unsigned int indT = trianglesList.size();
       Triangle newT1 = Triangle(indT, vt1, et1);
       trianglesList.push_back(newT1);
@@ -221,7 +221,7 @@ namespace RefineLibrary
 
               trianglesList[newT2._id]._status = false;  
           }
-          //Inseriamo i nuovi triangoli nella lista dei triangoli
+          //Inseriamo i nuovi triangoli nelle liste di triangoli
           trianglesList.push_back(newT3);
           sortedTriangles.push_back(newT3);
           trianglesList.push_back(newT4);
@@ -247,7 +247,7 @@ namespace RefineLibrary
       {
         if(trianglesList[adjacent]._longestEdge == edgesList[toBisect]._id)
 
-            //Caso in cui i due triangoli hanno stesso longestEdge : devo collegare al punto medio (newVertex) con il vertice opposto nel triangolo adiacente
+        //Caso in cui i due triangoli hanno stesso longestEdge : devo collegare al punto medio (newVertex) con il vertice opposto nel triangolo adiacente
         {
             unsigned int contr = -1; // Id del vertice opposto inizializzato a un valore non corrispondente a nessun vertice
             Edge newEdge4;
@@ -334,11 +334,13 @@ namespace RefineLibrary
       {
         cout<<"Refining triangle n. "<< i+1<<endl;
 
-        // Finchè abbiamo triangoli non attivi, prendo il successivo finchè non ne trovo uno attivo
+        // Finchè abbiamo triangoli non attivi, prendiamo il successivo finché non ne troviamo uno attivo
+        //togliamo da sortedTriangles i triangoli non attivi in modo da mantere una lista con meno elementi
+        //ed avere un sorting più efficiente
         while(!trianglesList[sortedTriangles[0]._id]._status)
             sortedTriangles.erase(sortedTriangles.begin());
 
-      // Biseziono il triangolo
+      // Bisezioniamo il triangolo
         Bisect(sortedTriangles, trianglesList, sortedTriangles[0], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
 
       //Per motivi di efficienza, usiamo InsertionSort per ordinare i triangoli per area decrescente dopo che abbiamo già raffinato almeno un triangolo

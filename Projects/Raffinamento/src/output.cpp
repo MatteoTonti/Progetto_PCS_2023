@@ -3,7 +3,7 @@
 namespace OutputLibrary{
     bool ExportVertices(vector<Vertex>& verticesList)
     {
-      // Iniziamo aprendo il file
+      // Iniziamo creando il file di output per i vertici
       ofstream file;
       string outputFile = "refVertices.csv";
       file.open(outputFile);
@@ -27,7 +27,7 @@ namespace OutputLibrary{
 
     bool ExportEdges(vector<Edge>& edgesList, vector<Vertex>& verticesList)
     {
-        // Apertura file
+        // Iniziamo creando il file di output per i lati
         ofstream file;
         string outputFile = "refEdges.csv";
         file.open(outputFile);
@@ -53,7 +53,7 @@ namespace OutputLibrary{
 
     bool ExportTriangles(vector<Triangle>& trianglesList)
     {
-      // Apertura file
+      // Iniziamo creando il file di output per triangoli
         ofstream file;
         string outputFile = "refTriangles.csv";
         file.open(outputFile);
