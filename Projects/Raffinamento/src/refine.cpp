@@ -333,13 +333,13 @@ namespace RefineLibrary
       // Prendiamo il primo triangolo della lista attivo, che sappiamo essere quello ad area maggiore
       {
         cout<<"Refining triangle n. "<< i+1<<endl;
-        unsigned int j = 0;
+
         // Finchè abbiamo triangoli non attivi, prendo il successivo finchè non ne trovo uno attivo
-        while(!trianglesList[sortedTriangles[j]._id]._status)
-            j++;
+        while(!trianglesList[sortedTriangles[0]._id]._status)
+            sortedTriangles.erase(sortedTriangles.begin());
 
       // Biseziono il triangolo
-        Bisect(sortedTriangles, trianglesList, sortedTriangles[j], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
+        Bisect(sortedTriangles, trianglesList, sortedTriangles[0], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
 
       //Per motivi di efficienza, usiamo InsertionSort per ordinare i triangoli per area decrescente dopo che abbiamo già raffinato almeno un triangolo
         sortedTriangles = InsertionSort(sortedTriangles);
