@@ -109,8 +109,8 @@ namespace RefineLibrary
 
           /*/ Uno tra i triangoli newT1 o newT2 è stato così diviso in due triangoli newT3 e newT4: dobbiamo capire quale
            // Metodo 1: Calcoliamo le aree con segno di newT1 e newT3: se il prodotto delle aree è positivo, è newT1 a dividersi in newT3 e newT4
-          double areaT1 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y) + verticesList[opposite]._x * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) + verticesList[edgesList[toBisect]._vertices[0]]._x * (newVertex._y - verticesList[opposite]._y));
-          double areaT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[prec]._y) + verticesList[opposite]._x * (verticesList[prec]._y - newVertex._y) + verticesList[prec]._x * (newVertex._y - verticesList[opposite]._y));
+          double areanewT1 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[edgesList[toBisect]._vertices[0]]._y) + verticesList[opposite]._x * (verticesList[edgesList[toBisect]._vertices[0]]._y - newVertex._y) + verticesList[edgesList[toBisect]._vertices[0]]._x * (newVertex._y - verticesList[opposite]._y));
+          double areanewT3 = 0.5 * (newVertex._x * (verticesList[opposite]._y - verticesList[prec]._y) + verticesList[opposite]._x * (verticesList[prec]._y - newVertex._y) + verticesList[prec]._x * (newVertex._y - verticesList[opposite]._y));
            */
 
           // Metodo 2: Usiamo prodotto vettoriale tra lato(opposite,[edgesList[toBisect]._vertices[0]]) e
@@ -127,7 +127,7 @@ namespace RefineLibrary
 
           // Se il prodotto vettoriale è = 0 (oppure il prodotto delle aree di newT1 e T3 > 0) newT1 si splitta in newT3 e newT4
           if(abs(prodvett) < GeometryLibrary :: geometricTol)
-            //if (areaT1*areaT2 > 0)
+            //if (areanewT1*areanewT3 > 0)
           {
 
               //Vertici di newT3
