@@ -14,4 +14,6 @@ add_test([=[TestImport.TestEdges]=]  C:/Users/matte/Desktop/Progetto_PCS/Project
 set_tests_properties([=[TestImport.TestEdges]=]  PROPERTIES WORKING_DIRECTORY C:/Users/matte/Desktop/Progetto_PCS/Projects/Release SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
 add_test([=[TestImport.TestTriangles]=]  C:/Users/matte/Desktop/Progetto_PCS/Projects/Release/raffinamento_test.exe [==[--gtest_filter=TestImport.TestTriangles]==] --gtest_also_run_disabled_tests)
 set_tests_properties([=[TestImport.TestTriangles]=]  PROPERTIES WORKING_DIRECTORY C:/Users/matte/Desktop/Progetto_PCS/Projects/Release SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
-set(  raffinamento_test_TESTS TestConstructors.TestVertex TestConstructors.TestEdge TestConstructors.TestTriangle TestSorting.TestHeapSort TestSorting.TestInsertion TestImport.TestVertices TestImport.TestEdges TestImport.TestTriangles)
+add_test([=[TestRefine.TestBisect]=]  C:/Users/matte/Desktop/Progetto_PCS/Projects/Release/raffinamento_test.exe [==[--gtest_filter=TestRefine.TestBisect]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[TestRefine.TestBisect]=]  PROPERTIES WORKING_DIRECTORY C:/Users/matte/Desktop/Progetto_PCS/Projects/Release SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  raffinamento_test_TESTS TestConstructors.TestVertex TestConstructors.TestEdge TestConstructors.TestTriangle TestSorting.TestHeapSort TestSorting.TestInsertion TestImport.TestVertices TestImport.TestEdges TestImport.TestTriangles TestRefine.TestBisect)
