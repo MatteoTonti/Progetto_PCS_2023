@@ -2,7 +2,7 @@
 
 namespace RefineLibrary
 {
-    void Bisect(vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<unsigned int> &newVertices, vector<unsigned int> &newEdges)
+    void Bisect(vector<Triangle> &sortedTriangles, vector<Triangle>& trianglesList, Triangle& triangle, vector<Vertex>& verticesList, vector<Edge> &edgesList, unsigned int& counter, vector<unsigned int> &newVertices, vector<unsigned int> &newEdges)
     {
       // Troviamo il lato da bisezionare e calcoliamo le coordinate del punto medio
       unsigned int toBisect = triangle._longestEdge;
@@ -89,8 +89,10 @@ namespace RefineLibrary
       unsigned int indT = trianglesList.size();
       Triangle newT1 = Triangle(indT, vt1, et1);
       trianglesList.push_back(newT1);
+      sortedTriangles.push_back(newT1);
       Triangle newT2 = Triangle(++indT, vt2, et2);
       trianglesList.push_back(newT2);
+      sortedTriangles.push_back(newT2);
 
       if(counter != 0) // Caso in cui non ci troviamo nel triangolo originale, bensì stiamo raffinando un altro triangolo adiacente come conseguenza
       {
@@ -221,7 +223,9 @@ namespace RefineLibrary
           }
           //Inseriamo i nuovi triangoli nella lista dei triangoli
           trianglesList.push_back(newT3);
+          sortedTriangles.push_back(newT3);
           trianglesList.push_back(newT4);
+          sortedTriangles.push_back(newT4);
       }
       counter++;
 
@@ -279,6 +283,7 @@ namespace RefineLibrary
                //Nuovo triangolo newT5
               Triangle newT5 = Triangle(++indT, vt5, et5);
               trianglesList.push_back(newT5);
+              sortedTriangles.push_back(newT5);
 
               //Troviamo il lato del triangolo adiacente che appartiene a newT6, che è il triangolo con il vertice 1
               unsigned int oldEdge6 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
@@ -297,6 +302,7 @@ namespace RefineLibrary
               //Nuovo triangolo newT6
               Triangle newT6 = Triangle(++indT, vt6, et6);
               trianglesList.push_back(newT6);
+              sortedTriangles.push_back(newT6);
               //Spegniamo il triangolo adiacente
               trianglesList[adjacent]._status = false;
           }
@@ -304,7 +310,7 @@ namespace RefineLibrary
           else if(trianglesList[adjacent]._longestEdge != toBisect)
           {
             //In questo caso andiamo avanti con la bisezione
-            Bisect(trianglesList, trianglesList[adjacent], verticesList, edgesList, counter, newVertices, newEdges);
+            Bisect(sortedTriangles, trianglesList, trianglesList[adjacent], verticesList, edgesList, counter, newVertices, newEdges);
           }
       }
     }
@@ -327,16 +333,16 @@ namespace RefineLibrary
       // Prendiamo il primo triangolo della lista attivo, che sappiamo essere quello ad area maggiore
       {
         cout<<"Refining triangle n. "<< i+1<<endl;
-        unsigned int j = 0;
+
         // Finchè abbiamo triangoli non attivi, prendo il successivo finchè non ne trovo uno attivo
-        while(!sortedTriangles[j]._status)
-            j++;
+        while(!trianglesList[sortedTriangles[0]._id]._status)
+            sortedTriangles.erase(sortedTriangles.begin());
 
       // Biseziono il triangolo
-        Bisect(trianglesList, sortedTriangles[j], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
+        Bisect(sortedTriangles, trianglesList, sortedTriangles[0], verticesList, edgesList, counter, newVertices, newEdges); // Possiamo levare lastEdge e lastTriangle secondo me e usare sempre la size della lista
 
       //Per motivi di efficienza, usiamo InsertionSort per ordinare i triangoli per area decrescente dopo che abbiamo già raffinato almeno un triangolo
-        sortedTriangles = InsertionSort(trianglesList);
+        sortedTriangles = InsertionSort(sortedTriangles);
 
         newEdges = {};
         counter = 0;
