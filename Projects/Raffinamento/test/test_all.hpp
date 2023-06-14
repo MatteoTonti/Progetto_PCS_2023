@@ -1,5 +1,5 @@
-#ifndef __TEST_EMPTY_H
-#define __TEST_EMPTY_H
+#ifndef __TEST_ALL_H
+#define __TEST_ALL_H
 
 #include <gtest/gtest.h>
 
@@ -173,4 +173,4 @@ TEST(TestRefine, TestBisect)
     EXPECT_EQ(edgesList[ide3]._status, false);
     EXPECT_EQ(trianglesList.size(), 6);
 }
-#endif // __TEST_EMPTY_H
+#endif // __TEST_ALL_H
