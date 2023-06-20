@@ -33,6 +33,7 @@ namespace GeometryLibrary
                double& x,
                double& y); //Costruttore del vertice
   };
+
 //Classe dei lati
   class Edge
   {
@@ -49,15 +50,6 @@ namespace GeometryLibrary
       double ComputeLength(vector<Vertex*>& vertices); //Metodo che restituisce la lunghezza del lato
   };
 
-  inline bool operator==(const Edge& e1, const Edge& e2) //operatore di uguaglianza tra lati
-  {
-    return e1._id == e2._id;
-  }
-
-  inline bool operator!=(const Edge& e1, const Edge& e2)
-  {
-    return !(e1 == e2);
-  }
 //Classe dei triangoli
   class Triangle
   {
