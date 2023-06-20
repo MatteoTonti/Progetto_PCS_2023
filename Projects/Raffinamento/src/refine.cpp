@@ -265,10 +265,10 @@ namespace RefineLibrary
             //Lati del nuovo triangolo newT5
             vector<Vertex*> vt5 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[0]]};
 
-            //Lati del nuovo triangolo newT5
+            //Lati del nuovo triangolo newT6
             vector<Vertex*> vt6 = {&verticesList[contr], &newVertex, &verticesList[edgesList[toBisect]._vertices[1]]};
 
-            //Troviamo il lato del triangolo adiacente che appartiene a T5, che è il triangolo con il vertice 0
+            //Troviamo il lato del triangolo adiacente che appartiene a newT5, che è il triangolo con il vertice 0
             unsigned int oldEdge5 = -1; //Lato da cercare inizializzato a un valore non corrispondente a nessun lato
             for(unsigned int i = 0; i < 3; i++)
             {
@@ -319,7 +319,7 @@ namespace RefineLibrary
     void Refine(vector<Triangle>& sortedTriangles, vector<Triangle>& trianglesList, const double& percentage,vector<Vertex>& verticesList, vector<Edge>& edgesList)
     {
       // Calcoliamo il numero di triangoli da raffinare
-      unsigned int numToBeRefined = (trianglesList.size() *percentage)/100;
+      unsigned int numToBeRefined = (trianglesList.size() * percentage)/100;
 
       //Contatore che se = 0 ci dice che il triangolo che stiamo raffinando è stato preso dalla lista dei triangoli ordinati per area;
       //se > 0 il triangolo viene raffinato come conseguenza di triangolo raffinato percedentemente in modo da mantenere la mesh ammissibile

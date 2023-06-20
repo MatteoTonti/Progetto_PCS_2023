@@ -12,7 +12,7 @@ namespace SortingLibrary
 {
   template<typename T>
   vector<T> MakeHeap(vector<T>& v, int&n, int id_root){
-          int id_max = id_root; // inizializzo il più piccolo col padre
+          int id_max = id_root; // inizializzo il più grande col padre
           int s = id_root * 2 + 1; // figlio sinistro ha indice 2*id_root+1
           int d = id_root * 2 + 2; // il destro 2*id_root+ 2
           T max = v[id_max];

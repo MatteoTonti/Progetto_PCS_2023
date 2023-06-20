@@ -12,7 +12,7 @@ namespace GeometryLibrary
   Edge::Edge(unsigned int& id, vector<Vertex *> &vertices)
   {
     _id = id;
-    _status = true; //Status vuol dire che il triangolo "esiste" ancora, cioè che non è stato diviso in due triangoli durante il raffinamento
+    _status = true; //Status vuol dire che il lato "esiste" ancora, cioè che non è stato bisezionato (ancora)
     for(unsigned int i = 0; i < 2; i++)
     {
         _vertices.push_back(vertices[i]->_id);
@@ -42,7 +42,7 @@ namespace GeometryLibrary
       edges[i]->_edgeOfTriangles.push_back(_id);
     _area = Area(vertices);
     _longestEdge = LongestEdge(edges);
-    _status = true; //Status vuol dire che il lato "esiste" ancora, cioè che non è stato bisezionato durante il raffinamento
+    _status = true; //Status true indica che il lato "esiste" ancora, cioè che non è stato bisezionato durante il raffinamento
   }
 
   double Triangle::Area(vector<Vertex *> &vertices)
