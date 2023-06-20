@@ -17,10 +17,10 @@ int main(int argc, char** argv)
     return -1;
   }
   //Percentuale dei triangoli da raffinare
-  double percentage;
-  istringstream converter;
+  double percentage = atof(argv[1]);
+  /*istringstream converter;
   converter.str(argv[1]);
-  converter >> percentage;
+  converter >> percentage;*/
 
 
   // Iniziamo importando i vertici
